@@ -6,4 +6,5 @@ opencv-python
 jinja2
 python-multipart
 pytest
+pytest-cov
 httpx
