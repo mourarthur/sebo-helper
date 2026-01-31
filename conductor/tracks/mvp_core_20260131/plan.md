@@ -12,7 +12,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Backend' (Protocol in workflow.md)
 
 ## Phase 3: Frontend Development (UI & Integration)
-- [ ] Task: Create Jinja2 base template and minimalist CSS.
+- [x] Task: Create Jinja2 base template and minimalist CSS. 9ec1f48
 - [ ] Task: Implement the main upload page.
     - [ ] Create HTML form and drag-and-drop area.
     - [ ] Implement Vanilla JS to handle file upload and display results from the backend.
