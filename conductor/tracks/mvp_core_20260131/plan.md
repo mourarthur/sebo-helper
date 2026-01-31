@@ -21,7 +21,7 @@
     - [x] Connect "Clear" button to backend endpoint. 3600e09
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Frontend' (Protocol in workflow.md)
 
-## Phase 4: Final Integration & Review
-- [~] Task: End-to-end testing of the upload -> OCR -> Display flow.
-- [~] Task: Final code cleanup and documentation update.
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Integration' (Protocol in workflow.md)
+## Phase 4: Final Integration & Review [checkpoint: b44301b]
+- [x] Task: End-to-end testing of the upload -> OCR -> Display flow. d9849ce
+- [x] Task: Final code cleanup and documentation update. d9849ce
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Integration' (Protocol in workflow.md)
