@@ -13,7 +13,7 @@
     - [ ] Write unit test for OCR extraction logic (using a sample image).
     - [ ] Implement OCR service using `pytesseract`.
     - [ ] Implement basic image pre-processing (grayscale, thresholding).
-- [ ] Task: Implement persistence for extracted text.
+- [x] Task: Implement persistence for extracted text. adcadb3
     - [ ] Write unit test for saving and clearing extracted results.
     - [ ] Implement local file storage logic for extraction history.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Backend' (Protocol in workflow.md)
