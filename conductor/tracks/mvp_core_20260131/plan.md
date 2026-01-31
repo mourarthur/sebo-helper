@@ -13,12 +13,12 @@
 
 ## Phase 3: Frontend Development (UI & Integration)
 - [x] Task: Create Jinja2 base template and minimalist CSS. 9ec1f48
-- [ ] Task: Implement the main upload page.
-    - [ ] Create HTML form and drag-and-drop area.
-    - [ ] Implement Vanilla JS to handle file upload and display results from the backend.
-- [ ] Task: Implement the "Results List" and "Clear" functionality.
-    - [ ] Create UI for listing titles.
-    - [ ] Connect "Clear" button to backend endpoint.
+- [x] Task: Implement the main upload page. 3600e09
+    - [x] Create HTML form and drag-and-drop area. 3600e09
+    - [x] Implement Vanilla JS to handle file upload and display results from the backend. 3600e09
+- [x] Task: Implement the "Results List" and "Clear" functionality. 3600e09
+    - [x] Create UI for listing titles. 3600e09
+    - [x] Connect "Clear" button to backend endpoint. 3600e09
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Frontend' (Protocol in workflow.md)
 
 ## Phase 4: Final Integration & Review
