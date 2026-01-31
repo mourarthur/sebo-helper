@@ -1,7 +1,7 @@
 # Implementation Plan: Core MVP
 
 ## Phase 1: Project Scaffolding & Environment
-- [ ] Task: Set up Python environment and install dependencies (FastAPI, uvicorn, pytesseract, Pillow, opencv-python, jinja2, python-multipart).
+- [x] Task: Set up Python environment and install dependencies (FastAPI, uvicorn, pytesseract, Pillow, opencv-python, jinja2, python-multipart). 8a0d9d9
 - [ ] Task: Create basic FastAPI application structure with a single "Hello World" route.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Scaffolding' (Protocol in workflow.md)
 
