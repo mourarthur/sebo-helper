@@ -2,7 +2,110 @@
 
 {% block content %}
 <div class="card">
-    <h2>Welcome to Sebo Helper</h2>
-    <p>Upload a photo of media spines to extract titles.</p>
+    <h2>Upload Media Spines</h2>
+    <div id="drop-area">
+        <form class="my-form">
+            <p>Upload a photo of media spines using the button below or by dragging and dropping onto the dashed region</p>
+            <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
+            <label class="btn btn-primary" for="fileElem">Select a file</label>
+        </form>
+        <div id="loading" style="display: none;">
+            <p>Processing image... Please wait.</p>
+        </div>
+    </div>
 </div>
+
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Extracted Titles</h2>
+        <button id="clear-btn" class="btn btn-danger">Clear Results</button>
+    </div>
+    <ul id="results-list">
+        <!-- Results will be injected here -->
+    </ul>
+</div>
+
+<script>
+let dropArea = document.getElementById('drop-area');
+
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, preventDefaults, false);
+});
+
+function preventDefaults (e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
+['dragenter', 'dragover'].forEach(eventName => {
+  dropArea.addEventListener(eventName, highlight, false);
+});
+
+['dragleave', 'drop'].forEach(eventName => {
+  dropArea.addEventListener(eventName, unhighlight, false);
+});
+
+function highlight(e) {
+  dropArea.classList.add('highlight');
+}
+
+function unhighlight(e) {
+  dropArea.classList.remove('highlight');
+}
+
+dropArea.addEventListener('drop', handleDrop, false);
+
+function handleDrop(e) {
+  let dt = e.dataTransfer;
+  let files = dt.files;
+  handleFiles(files);
+}
+
+function handleFiles(files) {
+  ([...files]).forEach(uploadFile);
+}
+
+function uploadFile(file) {
+  let url = '/upload';
+  let formData = new FormData();
+  formData.append('file', file);
+
+  document.getElementById('loading').style.display = 'block';
+
+  fetch(url, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById('loading').style.display = 'none';
+    updateResultsList(data.all_titles);
+  })
+  .catch(() => { 
+    document.getElementById('loading').style.display = 'none';
+    alert('Error uploading file'); 
+  });
+}
+
+function updateResultsList(titles) {
+  let list = document.getElementById('results-list');
+  list.innerHTML = '';
+  titles.forEach(title => {
+    let li = document.createElement('li');
+    li.textContent = title;
+    list.appendChild(li);
+  });
+}
+
+document.getElementById('clear-btn').onclick = function() {
+  fetch('/clear', { method: 'POST' })
+  .then(() => updateResultsList([]));
+};
+
+// Initial load
+fetch('/results')
+  .then(response => response.json())
+  .then(data => updateResultsList(data.titles));
+
+</script>
 {% endblock %}
