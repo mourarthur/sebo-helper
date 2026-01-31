@@ -5,18 +5,11 @@
 - [x] Task: Create basic FastAPI application structure with a single "Hello World" route. 843158a
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Scaffolding' (Protocol in workflow.md)
 
-## Phase 2: Backend Development (OCR & Processing)
+## Phase 2: Backend Development (OCR & Processing) [checkpoint: a3c61b9]
 - [x] Task: Implement image upload endpoint in FastAPI. 6349799
-    - [ ] Write unit test for image upload validation.
-    - [ ] Implement endpoint logic to receive and save temporary image files.
 - [x] Task: Integrate Tesseract OCR. 44f065d
-    - [ ] Write unit test for OCR extraction logic (using a sample image).
-    - [ ] Implement OCR service using `pytesseract`.
-    - [ ] Implement basic image pre-processing (grayscale, thresholding).
 - [x] Task: Implement persistence for extracted text. adcadb3
-    - [ ] Write unit test for saving and clearing extracted results.
-    - [ ] Implement local file storage logic for extraction history.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Backend' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Backend' (Protocol in workflow.md)
 
 ## Phase 3: Frontend Development (UI & Integration)
 - [ ] Task: Create Jinja2 base template and minimalist CSS.
