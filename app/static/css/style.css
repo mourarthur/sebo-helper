@@ -69,9 +69,18 @@ h1 {
     box-sizing: border-box;
 }
 
-#drop-area.highlight {
-    border-color: var(--primary-color);
-    background-color: #e9ecef;
+#loading {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none !important;
 }
 
 ul {

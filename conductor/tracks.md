@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Build core MVP with FastAPI and Tesseract OCR**
+- [~] **Track: Build core MVP with FastAPI and Tesseract OCR**
   *Link: [./tracks/mvp_core_20260131/](./tracks/mvp_core_20260131/)*

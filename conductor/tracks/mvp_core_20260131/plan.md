@@ -22,6 +22,6 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Frontend' (Protocol in workflow.md)
 
 ## Phase 4: Final Integration & Review
-- [ ] Task: End-to-end testing of the upload -> OCR -> Display flow.
-- [ ] Task: Final code cleanup and documentation update.
+- [~] Task: End-to-end testing of the upload -> OCR -> Display flow.
+- [~] Task: Final code cleanup and documentation update.
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Integration' (Protocol in workflow.md)

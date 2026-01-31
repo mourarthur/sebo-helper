@@ -9,7 +9,7 @@
             <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
             <label class="btn btn-primary" for="fileElem">Select a file</label>
         </form>
-        <div id="loading" style="display: none;">
+        <div id="loading" class="hidden">
             <p>Processing image... Please wait.</p>
         </div>
     </div>
@@ -70,7 +70,8 @@ function uploadFile(file) {
   let formData = new FormData();
   formData.append('file', file);
 
-  document.getElementById('loading').style.display = 'block';
+  console.log('Starting upload for:', file.name);
+  document.getElementById('loading').classList.remove('hidden');
 
   fetch(url, {
     method: 'POST',
@@ -78,11 +79,13 @@ function uploadFile(file) {
   })
   .then(response => response.json())
   .then(data => {
-    document.getElementById('loading').style.display = 'none';
+    console.log('Upload complete for:', file.name, data);
+    document.getElementById('loading').classList.add('hidden');
     updateResultsList(data.all_titles);
   })
-  .catch(() => { 
-    document.getElementById('loading').style.display = 'none';
+  .catch((error) => { 
+    console.error('Upload error:', error);
+    document.getElementById('loading').classList.add('hidden');
     alert('Error uploading file'); 
   });
 }
