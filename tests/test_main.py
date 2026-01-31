@@ -6,7 +6,7 @@ client = TestClient(app)
 def test_read_root():
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"message": "Hello World"}
+    assert "Sebo Helper" in response.text
 
 def test_upload_image():
     # Creating a dummy image in memory
