@@ -9,7 +9,7 @@
 - [x] Task: Implement image upload endpoint in FastAPI. 6349799
     - [ ] Write unit test for image upload validation.
     - [ ] Implement endpoint logic to receive and save temporary image files.
-- [ ] Task: Integrate Tesseract OCR.
+- [x] Task: Integrate Tesseract OCR. 44f065d
     - [ ] Write unit test for OCR extraction logic (using a sample image).
     - [ ] Implement OCR service using `pytesseract`.
     - [ ] Implement basic image pre-processing (grayscale, thresholding).
