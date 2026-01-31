@@ -11,7 +11,7 @@
 - [x] Task: Implement persistence for extracted text. adcadb3
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Backend' (Protocol in workflow.md)
 
-## Phase 3: Frontend Development (UI & Integration)
+## Phase 3: Frontend Development (UI & Integration) [checkpoint: f308cd3]
 - [x] Task: Create Jinja2 base template and minimalist CSS. 9ec1f48
 - [x] Task: Implement the main upload page. 3600e09
     - [x] Create HTML form and drag-and-drop area. 3600e09
@@ -19,7 +19,7 @@
 - [x] Task: Implement the "Results List" and "Clear" functionality. 3600e09
     - [x] Create UI for listing titles. 3600e09
     - [x] Connect "Clear" button to backend endpoint. 3600e09
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Frontend' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Frontend' (Protocol in workflow.md)
 
 ## Phase 4: Final Integration & Review
 - [ ] Task: End-to-end testing of the upload -> OCR -> Display flow.
