@@ -18,7 +18,7 @@
     - [ ] Implement: Update `ocr.py` logic.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Pre-processing & OCR Enhancements' (Protocol in workflow.md)
 
-## Phase 3: Verification and Refinement [checkpoint: ]
+## Phase 3: Verification and Refinement [checkpoint: 1a08cb1]
 - [x] Task: Run improved OCR on the full `sample-images` set and document results.
 - [x] Task: Refactor OCR service for performance and clarity. db1a10b
     - [ ] Write Tests: Ensure no regressions in existing tests.
