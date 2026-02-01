@@ -3,9 +3,10 @@ import os
 from app.services.ocr import extract_text
 
 @pytest.mark.parametrize("image_name, expected_keywords", [
-    ("OCR2_colecao-agatha.jpeg", ["elefantes", "agatha", "christie"]),
-    ("OCR3_colecao-agatha-boa.jpeg", ["morte", "nil", "agatha", "christie"]),
+    ("OCR2_colecao-agatha.jpeg", ["elefantes", "agatha", "christie", "assassinato"]),
+    ("OCR3_colecao-agatha-boa.jpeg", ["morte", "nil", "agatha", "christie", "abc", "assassinato"]),
     ("OCR4_colecao-legiao.jpeg", ["urban"]),
+    ("OCR5_colecao-medios-cds.jpeg", ["the", "who", "quadrophenia"]),
 ])
 def test_extract_text_rotated(image_name, expected_keywords):
     image_path = os.path.join("sample-images", image_name)

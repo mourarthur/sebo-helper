@@ -20,8 +20,11 @@ def extract_text(image_path: str) -> str:
         # Basic pre-processing
         _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         
-        # Try a few PSM modes that are good for spines
-        for psm in [3, 11]:
+        # PSM modes: 
+        # 3: Auto (good for mixed)
+        # 5: Vertical (good for stacked characters)
+        # 11: Sparse (good for spread out text)
+        for psm in [3, 5, 11]:
             text = pytesseract.image_to_string(thresh, config=f"--psm {psm}").strip()
             if len(text) > 10:
                 results.append(text)
@@ -45,4 +48,12 @@ def extract_text(image_path: str) -> str:
     if not results:
         return ""
         
-    return "\n---\n".join(set(results))
+    # Using a set to remove duplicates and then joining
+    unique_results = []
+    seen = set()
+    for res in results:
+        if res not in seen:
+            unique_results.append(res)
+            seen.add(res)
+            
+    return "\n---\n".join(unique_results)
