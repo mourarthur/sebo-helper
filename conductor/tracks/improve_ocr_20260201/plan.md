@@ -6,7 +6,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Research and Baseline' (Protocol in workflow.md)
 
 ## Phase 2: Pre-processing & OCR Enhancements [checkpoint: ]
-- [ ] Task: Implement image rotation detection (e.g., using OpenCV's `minAreaRect` or Hough Transform).
+- [x] Task: Implement image rotation detection (e.g., using OpenCV's `minAreaRect` or Hough Transform). 3d1ff43
 - [ ] Task: Implement image deskewing and pre-rotation logic in `app/services/ocr.py`.
     - [ ] Write Tests: Create `tests/test_ocr_rotated.py` with failing tests for rotated images.
     - [ ] Implement: Update `ocr.py` to handle rotated text.
