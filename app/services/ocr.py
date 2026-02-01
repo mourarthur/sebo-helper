@@ -2,25 +2,47 @@ import pytesseract
 from PIL import Image
 import cv2
 import numpy as np
+from app.services.image_utils import detect_rotation, rotate_image
 
 def extract_text(image_path: str) -> str:
     """
     Extracts text from an image using Tesseract OCR.
-    Includes basic pre-processing to improve accuracy.
+    Tries multiple rotations and PSM modes to maximize extraction.
     """
-    # Load image using OpenCV
     img = cv2.imread(image_path)
     if img is None:
         return ""
 
-    # Pre-processing
-    # 1. Grayscale
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    results = []
+
+    def run_ocr(image):
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        # Basic pre-processing
+        _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        
+        # Try a few PSM modes that are good for spines
+        for psm in [3, 11]:
+            text = pytesseract.image_to_string(thresh, config=f"--psm {psm}").strip()
+            if len(text) > 10:
+                results.append(text)
+
+    # 1. Original
+    run_ocr(img)
     
-    # 2. Thresholding (Otsu's binarization)
-    _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    # 2. Deskewed
+    angle = detect_rotation(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY))
+    if abs(angle) > 1.0:
+        deskewed = rotate_image(img, angle)
+        run_ocr(deskewed)
+
+    # 3. 90 deg CW
+    run_ocr(cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE))
     
-    # Extract text from processed image
-    text = pytesseract.image_to_string(thresh)
-    
-    return text.strip()
+    # 4. 90 deg CCW
+    run_ocr(cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE))
+
+    # Combine all unique results
+    if not results:
+        return ""
+        
+    return "\n---\n".join(set(results))
