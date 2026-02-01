@@ -16,7 +16,7 @@
 - [x] Task: Implement a multi-pass OCR strategy if single-pass rotation detection is insufficient. e8665a9
     - [ ] Write Tests: Add test cases for complex images needing multi-pass.
     - [ ] Implement: Update `ocr.py` logic.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Pre-processing & OCR Enhancements' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Pre-processing & OCR Enhancements' (Protocol in workflow.md)
 
 ## Phase 3: Verification and Refinement [checkpoint: ]
 - [ ] Task: Run improved OCR on the full `sample-images` set and document results.

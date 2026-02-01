@@ -9,7 +9,7 @@ from app.services.ocr import extract_text
 
 def run_baseline():
     image_dir = "sample-images"
-    output_file = "conductor/tracks/improve_ocr_20260201/baseline_results.txt"
+    output_file = "conductor/tracks/improve_ocr_20260201/improved_results.txt"
     
     images = glob.glob(os.path.join(image_dir, "*"))
     results = []
