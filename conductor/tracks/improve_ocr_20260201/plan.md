@@ -5,7 +5,7 @@
 - [x] Task: Establish a baseline accuracy metric by running current OCR on `sample-images`.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Research and Baseline' (Protocol in workflow.md)
 
-## Phase 2: Pre-processing & OCR Enhancements [checkpoint: ]
+## Phase 2: Pre-processing & OCR Enhancements [checkpoint: 2764c4a]
 - [x] Task: Implement image rotation detection (e.g., using OpenCV's `minAreaRect` or Hough Transform). 3d1ff43
 - [x] Task: Implement image deskewing and pre-rotation logic in `app/services/ocr.py`. 4a5079b
     - [ ] Write Tests: Create `tests/test_ocr_rotated.py` with failing tests for rotated images.
