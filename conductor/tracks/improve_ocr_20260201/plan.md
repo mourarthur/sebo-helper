@@ -7,7 +7,7 @@
 
 ## Phase 2: Pre-processing & OCR Enhancements [checkpoint: ]
 - [x] Task: Implement image rotation detection (e.g., using OpenCV's `minAreaRect` or Hough Transform). 3d1ff43
-- [ ] Task: Implement image deskewing and pre-rotation logic in `app/services/ocr.py`.
+- [x] Task: Implement image deskewing and pre-rotation logic in `app/services/ocr.py`. 4a5079b
     - [ ] Write Tests: Create `tests/test_ocr_rotated.py` with failing tests for rotated images.
     - [ ] Implement: Update `ocr.py` to handle rotated text.
 - [ ] Task: Experiment with and integrate optimal Tesseract PSM settings for vertical/rotated text.
