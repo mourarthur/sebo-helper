@@ -1,6 +1,6 @@
 # Implementation Plan: Improve OCR Accuracy for Rotated Text
 
-## Phase 1: Research and Baseline [checkpoint: ]
+## Phase 1: Research and Baseline [checkpoint: db7dbdf]
 - [x] Task: Research Tesseract PSM (Page Segmentation Modes) and rotation detection strategies.
 - [x] Task: Establish a baseline accuracy metric by running current OCR on `sample-images`.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Research and Baseline' (Protocol in workflow.md)
