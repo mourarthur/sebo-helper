@@ -6,3 +6,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [x] **Track: Build core MVP with FastAPI and Tesseract OCR**
   *Link: [./tracks/mvp_core_20260131/](./tracks/mvp_core_20260131/)*
+
+---
+
+- [~] **Track: Improve OCR accuracy for rotated text**
+  *Link: [./tracks/improve_ocr_20260201/](./tracks/improve_ocr_20260201/)*
