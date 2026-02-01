@@ -13,7 +13,7 @@
 - [x] Task: Experiment with and integrate optimal Tesseract PSM settings for vertical/rotated text. a6cc7ea
     - [ ] Write Tests: Update `tests/test_ocr_rotated.py` to assert better accuracy.
     - [ ] Implement: Apply PSM settings in `ocr.py`.
-- [ ] Task: Implement a multi-pass OCR strategy if single-pass rotation detection is insufficient.
+- [x] Task: Implement a multi-pass OCR strategy if single-pass rotation detection is insufficient. e8665a9
     - [ ] Write Tests: Add test cases for complex images needing multi-pass.
     - [ ] Implement: Update `ocr.py` logic.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Pre-processing & OCR Enhancements' (Protocol in workflow.md)
