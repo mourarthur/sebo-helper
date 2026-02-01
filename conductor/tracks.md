@@ -9,5 +9,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [~] **Track: Improve OCR accuracy for rotated text**
+- [x] **Track: Improve OCR accuracy for rotated text**
   *Link: [./tracks/improve_ocr_20260201/](./tracks/improve_ocr_20260201/)*
