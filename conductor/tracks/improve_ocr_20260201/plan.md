@@ -10,7 +10,7 @@
 - [x] Task: Implement image deskewing and pre-rotation logic in `app/services/ocr.py`. 4a5079b
     - [ ] Write Tests: Create `tests/test_ocr_rotated.py` with failing tests for rotated images.
     - [ ] Implement: Update `ocr.py` to handle rotated text.
-- [ ] Task: Experiment with and integrate optimal Tesseract PSM settings for vertical/rotated text.
+- [x] Task: Experiment with and integrate optimal Tesseract PSM settings for vertical/rotated text. a6cc7ea
     - [ ] Write Tests: Update `tests/test_ocr_rotated.py` to assert better accuracy.
     - [ ] Implement: Apply PSM settings in `ocr.py`.
 - [ ] Task: Implement a multi-pass OCR strategy if single-pass rotation detection is insufficient.
