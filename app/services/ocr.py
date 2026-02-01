@@ -20,10 +20,7 @@ def extract_text(image_path: str) -> str:
         # Basic pre-processing
         _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         
-        # PSM modes: 
-        # 3: Auto (good for mixed)
-        # 5: Vertical (good for stacked characters)
-        # 11: Sparse (good for spread out text)
+        # PSM modes: 3 (Auto), 5 (Vertical), 11 (Sparse)
         for psm in [3, 5, 11]:
             text = pytesseract.image_to_string(thresh, config=f"--psm {psm}").strip()
             if len(text) > 10:
@@ -38,17 +35,14 @@ def extract_text(image_path: str) -> str:
         deskewed = rotate_image(img, angle)
         run_ocr(deskewed)
 
-    # 3. 90 deg CW
-    run_ocr(cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE))
-    
-    # 4. 90 deg CCW
-    run_ocr(cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE))
+    # 3. Rotations (90 CW, 90 CCW, 180)
+    for rot in [cv2.ROTATE_90_CLOCKWISE, cv2.ROTATE_90_COUNTERCLOCKWISE, cv2.ROTATE_180]:
+        run_ocr(cv2.rotate(img, rot))
 
     # Combine all unique results
     if not results:
         return ""
         
-    # Using a set to remove duplicates and then joining
     unique_results = []
     seen = set()
     for res in results:
