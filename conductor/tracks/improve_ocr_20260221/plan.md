@@ -1,7 +1,7 @@
 # Implementation Plan: Improve OCR Performance
 
 ## Phase 1: Setup & Benchmarking
-- [ ] Task: Create a dedicated directory for the OCR experiments (e.g., `experiments/ocr_improvement`).
+- [x] Task: Create a dedicated directory for the OCR experiments (e.g., `experiments/ocr_improvement`). d4100b3
 - [ ] Task: Create a Python script `benchmark.py` that iterates through `sample-images/`, runs the current OCR implementation, and compares the output with the ground truth `.txt` files.
 - [ ] Task: Implement a scoring function (e.g., Levenshtein distance) to quantify accuracy.
 - [ ] Task: Run the benchmark to establish the baseline accuracy and performance metrics. Record these in a `results/baseline.md` file.
