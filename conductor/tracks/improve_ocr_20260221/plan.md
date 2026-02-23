@@ -8,7 +8,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Setup & Benchmarking' (Protocol in workflow.md)
 
 ## Phase 2: Tesseract Optimization
-- [ ] Task: Modify `benchmark.py` to accept different Tesseract configurations (PSM, OEM) and preprocessing flags.
+- [~] Task: Modify `benchmark.py` to accept different Tesseract configurations (PSM, OEM) and preprocessing flags.
 - [ ] Task: Run experiments with different PSM modes (specifically 6, 11, 12 for blocks/sparse text) and document the results.
 - [ ] Task: Implement and test basic image preprocessing (e.g., rotation/deskewing using OpenCV) before passing to Tesseract.
 - [ ] Task: Measure if preprocessing improves accuracy on the rotated/vertical text samples.
