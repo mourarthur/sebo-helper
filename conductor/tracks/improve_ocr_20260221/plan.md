@@ -9,8 +9,8 @@
 
 ## Phase 2: Tesseract Optimization
 - [x] Task: Modify `benchmark.py` to accept different Tesseract configurations (PSM, OEM) and preprocessing flags. 226ae4f
-- [~] Task: Run experiments with different PSM modes (specifically 6, 11, 12 for blocks/sparse text) and document the results.
-- [ ] Task: Implement and test basic image preprocessing (e.g., rotation/deskewing using OpenCV) before passing to Tesseract.
+- [x] Task: Run experiments with different PSM modes (specifically 6, 11, 12 for blocks/sparse text) and document the results. 26fe411
+- [~] Task: Implement and test basic image preprocessing (e.g., rotation/deskewing using OpenCV) before passing to Tesseract.
 - [ ] Task: Measure if preprocessing improves accuracy on the rotated/vertical text samples.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Tesseract Optimization' (Protocol in workflow.md)
 
