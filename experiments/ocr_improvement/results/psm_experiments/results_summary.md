@@ -23,6 +23,18 @@ PSM 12 ("Sparse text. Find as much text as possible in no particular order.") pr
 
 Further experimentation with other parameters (OEM, language, preprocessing) combined with PSM 12 is recommended.
 
+## Alternative Engine Evaluation: EasyOCR vs. Tesseract (PSM 12)
+
+| Engine / Configuration | Average Accuracy (%) |
+| :--------------------- | :------------------- |
+| Tesseract (PSM 12)     | **20.95**            |
+| EasyOCR                | 8.61                 |
+
+### Observations
+- EasyOCR performed significantly worse than Tesseract with PSM 12 on this specific dataset.
+- This might be due to EasyOCR's default configuration not being optimized for the "spine text" use case, or the dataset itself being more aligned with Tesseract's strengths.
+- Further tuning of EasyOCR (e.g., custom models, more aggressive preprocessing outside its internal capabilities) could potentially improve its performance, but for out-of-the-box usage on this dataset, Tesseract remains superior.
+
 ## Preprocessing Experiment Results (PSM 12 with OSD-based Rotation)
 
 | Configuration        | Average Accuracy (%) |
