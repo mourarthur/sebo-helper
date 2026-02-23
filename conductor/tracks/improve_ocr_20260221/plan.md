@@ -14,12 +14,12 @@
 - [x] Task: Measure if preprocessing improves accuracy on the rotated/vertical text samples. c95d446
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Tesseract Optimization' (Protocol in workflow.md)
 
-## Phase 3: Alternative Engine Evaluation
+## Phase 3: Alternative Engine Evaluation [checkpoint: 318d6f6]
 - [x] Task: Research and select a promising alternative OCR library (e.g., EasyOCR or PaddleOCR) compatible with the current Python environment. c3e1a5e
 - [x] Task: Install the chosen library and add it to `requirements.txt`. c3e1a5e
 - [x] Task: Create a wrapper in `benchmark.py` to use the new engine. 76989c8
 - [x] Task: Run the benchmark using the new engine and compare results (accuracy and speed) against the best Tesseract configuration. 40e3506
-- [~] Task: Conductor - User Manual Verification 'Phase 3: Alternative Engine Evaluation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Alternative Engine Evaluation' (Protocol in workflow.md)
 
 ## Phase 4: Integration & Wrap-up
 - [ ] Task: Select the best performing OCR solution (Engine + Config) based on the data.
