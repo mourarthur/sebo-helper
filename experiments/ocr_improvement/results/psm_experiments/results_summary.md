@@ -22,3 +22,15 @@ The `benchmark.py` script was used with the `--psm` argument to test four differ
 PSM 12 ("Sparse text. Find as much text as possible in no particular order.") provided the best overall average accuracy (20.95%) for the `sample-images` dataset, demonstrating a substantial improvement over the default PSM 3 and other tested modes.
 
 Further experimentation with other parameters (OEM, language, preprocessing) combined with PSM 12 is recommended.
+
+## Preprocessing Experiment Results (PSM 12 with OSD-based Rotation)
+
+| Configuration        | Average Accuracy (%) |
+| :------------------- | :------------------ |
+| PSM 12 (No Preprocess) | **20.95**          |
+| PSM 12 (With Preprocess) | 20.35             |
+
+### Observations
+- OSD-based rotation for preprocessing, as implemented, resulted in a slight decrease in overall accuracy.
+- Tesseract's OSD can be unreliable on images with sparse text or low resolution, leading to "Too few characters. Skipping this page" errors and potentially incorrect rotations.
+- This suggests that a more robust rotation detection mechanism (e.g., OpenCV-based deskewing or a multi-pass approach) might be necessary, or OSD should be applied selectively.
