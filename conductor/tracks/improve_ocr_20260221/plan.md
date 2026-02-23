@@ -4,8 +4,8 @@
 - [x] Task: Create a dedicated directory for the OCR experiments (e.g., `experiments/ocr_improvement`). d4100b3
 - [x] Task: Create a Python script `benchmark.py` that iterates through `sample-images/`, runs the current OCR implementation, and compares the output with the ground truth `.txt` files. f5c39d5
 - [x] Task: Implement a scoring function (e.g., Levenshtein distance) to quantify accuracy. 0d90996
-- [~] Task: Run the benchmark to establish the baseline accuracy and performance metrics. Record these in a `results/baseline.md` file.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Setup & Benchmarking' (Protocol in workflow.md)
+- [x] Task: Run the benchmark to establish the baseline accuracy and performance metrics. Record these in a `results/baseline.md` file. e99ead7
+- [~] Task: Conductor - User Manual Verification 'Phase 1: Setup & Benchmarking' (Protocol in workflow.md)
 
 ## Phase 2: Tesseract Optimization
 - [ ] Task: Modify `benchmark.py` to accept different Tesseract configurations (PSM, OEM) and preprocessing flags.
