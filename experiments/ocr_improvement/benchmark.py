@@ -3,6 +3,32 @@ import sys
 import pytesseract
 from PIL import Image
 
+def levenshtein_distance(s1: str, s2: str) -> int:
+    """Calculates the Levenshtein edit distance between two strings."""
+    if len(s1) < len(s2):
+        return levenshtein_distance(s2, s1)
+    if len(s2) == 0:
+        return len(s1)
+    
+    previous_row = range(len(s2) + 1)
+    for i, c1 in enumerate(s1):
+        current_row = [i + 1]
+        for j, c2 in enumerate(s2):
+            insertions = previous_row[j + 1] + 1
+            deletions = current_row[j] + 1
+            substitutions = previous_row[j] + (c1 != c2)
+            current_row.append(min(insertions, deletions, substitutions))
+        previous_row = current_row
+    return previous_row[-1]
+
+def calculate_accuracy(s1: str, s2: str) -> float:
+    """Calculates accuracy score based on Levenshtein distance (0-100)."""
+    dist = levenshtein_distance(s1, s2)
+    max_len = max(len(s1), len(s2))
+    if max_len == 0:
+        return 100.0 if dist == 0 else 0.0
+    return (1 - dist / max_len) * 100
+
 def load_ground_truth(image_path: str) -> str:
     """
     Loads the corresponding ground truth text file for a given image path.
@@ -41,10 +67,14 @@ def run_benchmark(images_dir: str) -> list[dict]:
             ground_truth = load_ground_truth(image_path)
             extracted_text = perform_ocr(image_path)
             
+            # Simple Levenshtein accuracy
+            accuracy = calculate_accuracy(ground_truth, extracted_text)
+            
             results.append({
                 'image': filename,
                 'ground_truth': ground_truth,
-                'extracted': extracted_text
+                'extracted': extracted_text,
+                'accuracy': accuracy
             })
             
     return results
@@ -56,8 +86,16 @@ if __name__ == "__main__":
         directory = "sample-images"
     
     benchmark_results = run_benchmark(directory)
+    total_accuracy = 0.0
     for res in benchmark_results:
         print(f"Image: {res['image']}")
-        print(f"Ground Truth: {res['ground_truth']}")
-        print(f"Extracted: {res['extracted']}")
+        print(f"Accuracy: {res['accuracy']:.2f}%")
+        # Truncate output for readability if too long
+        print(f"Ground Truth (first 100 chars): {res['ground_truth'][:100]}...")
+        print(f"Extracted (first 100 chars): {res['extracted'][:100]}...")
         print("-" * 20)
+        total_accuracy += res['accuracy']
+    
+    if benchmark_results:
+        avg_accuracy = total_accuracy / len(benchmark_results)
+        print(f"\nAverage Accuracy: {avg_accuracy:.2f}%")

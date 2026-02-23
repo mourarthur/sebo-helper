@@ -49,3 +49,27 @@ def test_run_benchmark_iteration():
         assert results[0]['ground_truth'] == 'Ground Truth'
         assert results[0]['extracted'] == 'Extracted Text'
 
+def test_calculate_accuracy():
+    """Test the accuracy calculation function."""
+    from experiments.ocr_improvement.benchmark import calculate_accuracy
+    
+    # Perfect match
+    assert calculate_accuracy("test", "test") == 100.0
+    
+    # Complete mismatch (empty)
+    assert calculate_accuracy("test", "") == 0.0
+    assert calculate_accuracy("", "test") == 0.0
+    
+    # Partial match
+    # Levenshtein distance between "kitten" and "sitting" is 3.
+    # Max length is 7.
+    # Accuracy = (1 - 3/7) * 100 = 57.14...
+    score = calculate_accuracy("kitten", "sitting")
+    assert 57.0 < score < 58.0
+
+    # Case insensitivity check (optional, but good for OCR)
+    # If we decide to normalize case, this would be 100. 
+    # But usually strict Levenshtein is case-sensitive.
+    # Let's assume strict for now.
+    assert calculate_accuracy("Test", "test") < 100.0
+
