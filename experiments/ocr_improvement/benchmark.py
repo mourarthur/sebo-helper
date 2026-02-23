@@ -42,18 +42,19 @@ def load_ground_truth(image_path: str) -> str:
     except FileNotFoundError:
         return ""
 
-def perform_ocr(image_path: str) -> str:
+def perform_ocr(image_path: str, config: str = "", lang: str = None) -> str:
     """
     Runs Tesseract OCR on the image at the given path.
+    Accepts Tesseract configuration string and language.
     """
     try:
-        text = pytesseract.image_to_string(Image.open(image_path))
+        text = pytesseract.image_to_string(Image.open(image_path), config=config, lang=lang)
         return text.strip()
     except Exception as e:
         print(f"Error processing {image_path}: {e}")
         return ""
 
-def run_benchmark(images_dir: str) -> list[dict]:
+def run_benchmark(images_dir: str, tesseract_config: str = "", lang: str = None) -> list[dict]:
     """
     Iterates through images in the directory, runs OCR, and compares with ground truth.
     Returns a list of result dictionaries.
@@ -65,7 +66,7 @@ def run_benchmark(images_dir: str) -> list[dict]:
         if filename.lower().endswith(supported_exts):
             image_path = os.path.join(images_dir, filename)
             ground_truth = load_ground_truth(image_path)
-            extracted_text = perform_ocr(image_path)
+            extracted_text = perform_ocr(image_path, config=tesseract_config, lang=lang)
             
             # Simple Levenshtein accuracy
             accuracy = calculate_accuracy(ground_truth, extracted_text)
@@ -110,9 +111,20 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run OCR Benchmark")
     parser.add_argument("directory", nargs="?", default="sample-images", help="Path to images directory")
     parser.add_argument("--report", help="Path to output markdown report")
-    args = parser.parse_args()
+    parser.add_argument("--psm", type=int, choices=range(0, 14), help="Tesseract Page Segmentation Mode (0-13)")
+    parser.add_argument("--oem", type=int, choices=range(0, 4), help="Tesseract OCR Engine Mode (0-3)")
+    parser.add_argument("--lang", default="eng", help="Tesseract language code(s) (e.g., eng, por, eng+por)")
+    parser.add_argument("--config", default="", help="Additional Tesseract config string")
     
-    benchmark_results = run_benchmark(args.directory)
+    args = parser.parse_args()
+
+    tesseract_config = args.config
+    if args.psm is not None:
+        tesseract_config += f" --psm {args.psm}"
+    if args.oem is not None:
+        tesseract_config += f" --oem {args.oem}"
+
+    benchmark_results = run_benchmark(args.directory, tesseract_config, args.lang)
     
     if args.report:
         generate_markdown_report(benchmark_results, args.report)
