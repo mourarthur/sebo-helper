@@ -6,9 +6,8 @@ import sys
 # Add the project root to the python path to import app modules if needed
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-# Placeholder for the benchmark module we are about to create
-# We will need to import the function that runs the benchmark
-# from experiments.ocr_improvement import benchmark
+# Now import benchmark
+from experiments.ocr_improvement import benchmark
 
 def test_benchmark_script_exists():
     """Test that the benchmark script exists."""
@@ -124,4 +123,38 @@ def test_perform_ocr_with_lang():
         custom_lang = "eng+por"
         perform_ocr(test_image_path, lang=custom_lang)
         mock_tesseract.assert_called_with(ANY, config="", lang=custom_lang)
+
+def test_easyocr_engine_selection():
+    """Test that easyocr engine is selected and called correctly."""
+    from experiments.ocr_improvement.benchmark import run_benchmark
+    
+    with patch("experiments.ocr_improvement.benchmark.perform_ocr_easyocr", return_value="EasyOCR Text") as MockPerformEasyOCR, \
+         patch("experiments.ocr_improvement.benchmark.load_ground_truth", return_value="Ground Truth"), \
+         patch("os.listdir", return_value=["img1.jpg"]), \
+         patch("experiments.ocr_improvement.benchmark.perform_ocr", MagicMock(return_value="Tesseract Text")):
+        
+        results = run_benchmark("sample-images", ocr_engine="easyocr")
+        
+        MockPerformEasyOCR.assert_called_once_with("sample-images/img1.jpg", ANY) # ANY for reader_instance
+        
+        assert results[0]['extracted'] == "EasyOCR Text"
+        assert 'accuracy' in results[0]
+
+def test_tesseract_engine_selection():
+    """Test that tesseract engine is selected and called correctly."""
+    from experiments.ocr_improvement.benchmark import run_benchmark, perform_ocr
+    
+    mock_perform_ocr = MagicMock(return_value="Tesseract Text")
+    
+    with patch("experiments.ocr_improvement.benchmark.perform_ocr", mock_perform_ocr) as MockPerformOcr, \
+         patch("experiments.ocr_improvement.benchmark.load_ground_truth", return_value="Ground Truth"), \
+         patch("os.listdir", return_value=["img1.jpg"]), \
+         patch("experiments.ocr_improvement.benchmark.perform_ocr_easyocr", MagicMock(return_value="EasyOCR Text")): # Ensure perform_ocr_easyocr is not called
+        
+        # Run benchmark with tesseract engine (default)
+        results = run_benchmark("sample-images", ocr_engine="tesseract")
+        
+        MockPerformOcr.assert_called_once()
+        assert results[0]['extracted'] == "Tesseract Text"
+        assert 'accuracy' in results[0]
 
