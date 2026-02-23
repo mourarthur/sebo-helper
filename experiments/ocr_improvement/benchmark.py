@@ -54,7 +54,26 @@ def perform_ocr(image_path: str, config: str = "", lang: str = None) -> str:
         print(f"Error processing {image_path}: {e}")
         return ""
 
-def run_benchmark(images_dir: str, tesseract_config: str = "", lang: str = None) -> list[dict]:
+def preprocess_image(image: Image.Image) -> Image.Image:
+    """
+    Performs basic image preprocessing, specifically rotation based on Tesseract OSD.
+    """
+    try:
+        # Get OSD (Orientation and Script Detection) information
+        osd_data = pytesseract.image_to_osd(image, output_type=pytesseract.Output.DICT)
+        rotate_angle = osd_data.get('rotate', 0)
+        
+        if rotate_angle != 0:
+            print(f"Detected rotation: {rotate_angle} degrees. Rotating image.")
+            # PIL rotate is counter-clockwise, so we pass negative angle
+            # expand=True resizes the image to fit the new dimensions
+            return image.rotate(-rotate_angle, expand=True)
+        return image
+    except Exception as e:
+        print(f"Error during preprocessing: {e}")
+        return image
+
+def run_benchmark(images_dir: str, tesseract_config: str = "", lang: str = None, preprocess: bool = False) -> list[dict]:
     """
     Iterates through images in the directory, runs OCR, and compares with ground truth.
     Returns a list of result dictionaries.
@@ -66,7 +85,7 @@ def run_benchmark(images_dir: str, tesseract_config: str = "", lang: str = None)
         if filename.lower().endswith(supported_exts):
             image_path = os.path.join(images_dir, filename)
             ground_truth = load_ground_truth(image_path)
-            extracted_text = perform_ocr(image_path, config=tesseract_config, lang=lang)
+            extracted_text = perform_ocr(image_path, config=tesseract_config, lang=lang, preprocess=preprocess)
             
             # Simple Levenshtein accuracy
             accuracy = calculate_accuracy(ground_truth, extracted_text)
@@ -115,6 +134,7 @@ if __name__ == "__main__":
     parser.add_argument("--oem", type=int, choices=range(0, 4), help="Tesseract OCR Engine Mode (0-3)")
     parser.add_argument("--lang", default="eng", help="Tesseract language code(s) (e.g., eng, por, eng+por)")
     parser.add_argument("--config", default="", help="Additional Tesseract config string")
+    parser.add_argument("--preprocess", action="store_true", help="Enable image preprocessing (rotation detection)")
     
     args = parser.parse_args()
 
@@ -124,7 +144,7 @@ if __name__ == "__main__":
     if args.oem is not None:
         tesseract_config += f" --oem {args.oem}"
 
-    benchmark_results = run_benchmark(args.directory, tesseract_config, args.lang)
+    benchmark_results = run_benchmark(args.directory, tesseract_config, args.lang, args.preprocess)
     
     if args.report:
         generate_markdown_report(benchmark_results, args.report)
