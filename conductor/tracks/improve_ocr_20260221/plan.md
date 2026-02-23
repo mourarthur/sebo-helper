@@ -15,9 +15,9 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Tesseract Optimization' (Protocol in workflow.md)
 
 ## Phase 3: Alternative Engine Evaluation
-- [~] Task: Research and select a promising alternative OCR library (e.g., EasyOCR or PaddleOCR) compatible with the current Python environment.
-- [ ] Task: Install the chosen library and add it to `requirements.txt`.
-- [ ] Task: Create a wrapper in `benchmark.py` to use the new engine.
+- [x] Task: Research and select a promising alternative OCR library (e.g., EasyOCR or PaddleOCR) compatible with the current Python environment. c3e1a5e
+- [x] Task: Install the chosen library and add it to `requirements.txt`. c3e1a5e
+- [~] Task: Create a wrapper in `benchmark.py` to use the new engine.
 - [ ] Task: Run the benchmark using the new engine and compare results (accuracy and speed) against the best Tesseract configuration.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Alternative Engine Evaluation' (Protocol in workflow.md)
 
