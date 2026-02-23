@@ -1,6 +1,6 @@
 import os
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, patch, ANY
 import sys
 
 # Add the project root to the python path to import app modules if needed
@@ -72,4 +72,56 @@ def test_calculate_accuracy():
     # But usually strict Levenshtein is case-sensitive.
     # Let's assume strict for now.
     assert calculate_accuracy("Test", "test") < 100.0
+
+def test_preprocess_image_rotates():
+    """Test that preprocess_image rotates the image based on OSD."""
+    from experiments.ocr_improvement.benchmark import preprocess_image
+    
+    mock_image = MagicMock()
+    mock_image.rotate.return_value = mock_image # Simulate rotation
+    
+    with patch("pytesseract.image_to_osd") as mock_osd:
+        mock_osd.return_value = {
+            'page_number': 0, 'orientation': 270, 'rotate': 90, 'orientation_conf': 1.0, 'script': 'Latin', 'script_conf': 0.8
+        }
+        
+        rotated_image = preprocess_image(mock_image)
+        
+        mock_image.rotate.assert_called_with(-90, expand=True)
+        assert rotated_image is mock_image # Check if it returns the rotated image
+
+
+def test_perform_ocr_with_config():
+    """Test that perform_ocr passes Tesseract config to pytesseract."""
+    from experiments.ocr_improvement.benchmark import perform_ocr
+    with patch("pytesseract.image_to_string") as mock_tesseract, \
+         patch("PIL.Image.open"): # Mock Image.open as well
+        
+        test_image_path = "sample-images/test.jpg"
+        
+        # Test with default config
+        perform_ocr(test_image_path)
+        mock_tesseract.assert_called_with(ANY, config="", lang=None)
+
+        # Test with custom config
+        custom_config = "--psm 6 --oem 1"
+        perform_ocr(test_image_path, config=custom_config)
+        mock_tesseract.assert_called_with(ANY, config=custom_config, lang=None)
+
+def test_perform_ocr_with_lang():
+    """Test that perform_ocr passes language to pytesseract."""
+    from experiments.ocr_improvement.benchmark import perform_ocr
+    with patch("pytesseract.image_to_string") as mock_tesseract, \
+         patch("PIL.Image.open"): # Mock Image.open as well
+        
+        test_image_path = "sample-images/test.jpg"
+        
+        # Test with default lang (None)
+        perform_ocr(test_image_path)
+        mock_tesseract.assert_called_with(ANY, config="", lang=None)
+        
+        # Test with custom lang
+        custom_lang = "eng+por"
+        perform_ocr(test_image_path, lang=custom_lang)
+        mock_tesseract.assert_called_with(ANY, config="", lang=custom_lang)
 
