@@ -79,13 +79,45 @@ def run_benchmark(images_dir: str) -> list[dict]:
             
     return results
 
+def generate_markdown_report(results: list[dict], output_file: str):
+    """Generates a markdown report from benchmark results."""
+    import datetime
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write("# OCR Benchmark Results\n\n")
+        f.write(f"**Date:** {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        
+        avg_acc = 0.0
+        if results:
+            avg_acc = sum(r['accuracy'] for r in results) / len(results)
+        
+        f.write(f"**Average Accuracy:** {avg_acc:.2f}%\n")
+        f.write(f"**Total Images:** {len(results)}\n\n")
+        
+        f.write("| Image | Accuracy | Ground Truth (Snippet) | Extracted (Snippet) |\n")
+        f.write("| :--- | :--- | :--- | :--- |\n")
+        
+        for res in results:
+            gt = res['ground_truth'].replace('\n', ' ')[:50]
+            ext = res['extracted'].replace('\n', ' ')[:50]
+            # Escape pipes to avoid breaking markdown table
+            gt = gt.replace('|', '\\|')
+            ext = ext.replace('|', '\\|')
+            f.write(f"| {res['image']} | {res['accuracy']:.2f}% | {gt}... | {ext}... |\n")
+
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        directory = sys.argv[1]
-    else:
-        directory = "sample-images"
+    import argparse
     
-    benchmark_results = run_benchmark(directory)
+    parser = argparse.ArgumentParser(description="Run OCR Benchmark")
+    parser.add_argument("directory", nargs="?", default="sample-images", help="Path to images directory")
+    parser.add_argument("--report", help="Path to output markdown report")
+    args = parser.parse_args()
+    
+    benchmark_results = run_benchmark(args.directory)
+    
+    if args.report:
+        generate_markdown_report(benchmark_results, args.report)
+        print(f"Report generated at {args.report}")
+
     total_accuracy = 0.0
     for res in benchmark_results:
         print(f"Image: {res['image']}")
