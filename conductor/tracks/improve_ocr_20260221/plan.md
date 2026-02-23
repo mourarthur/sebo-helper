@@ -7,12 +7,12 @@
 - [x] Task: Run the benchmark to establish the baseline accuracy and performance metrics. Record these in a `results/baseline.md` file. e99ead7
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Setup & Benchmarking' (Protocol in workflow.md)
 
-## Phase 2: Tesseract Optimization
+## Phase 2: Tesseract Optimization [checkpoint: af745ad]
 - [x] Task: Modify `benchmark.py` to accept different Tesseract configurations (PSM, OEM) and preprocessing flags. 226ae4f
 - [x] Task: Run experiments with different PSM modes (specifically 6, 11, 12 for blocks/sparse text) and document the results. 26fe411
 - [x] Task: Implement and test basic image preprocessing (e.g., rotation/deskewing using OpenCV) before passing to Tesseract. 0a65509
 - [x] Task: Measure if preprocessing improves accuracy on the rotated/vertical text samples. c95d446
-- [~] Task: Conductor - User Manual Verification 'Phase 2: Tesseract Optimization' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Tesseract Optimization' (Protocol in workflow.md)
 
 ## Phase 3: Alternative Engine Evaluation
 - [ ] Task: Research and select a promising alternative OCR library (e.g., EasyOCR or PaddleOCR) compatible with the current Python environment.
