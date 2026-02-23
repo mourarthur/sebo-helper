@@ -22,8 +22,8 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Alternative Engine Evaluation' (Protocol in workflow.md)
 
 ## Phase 4: Integration & Wrap-up
-- [~] Task: Select the best performing OCR solution (Engine + Config) based on the data.
-- [ ] Task: Refactor the main application's OCR service (`app/services/ocr.py`) to use the winning solution.
+- [x] Task: Select the best performing OCR solution (Engine + Config) based on the data. 3c748f8
+- [~] Task: Refactor the main application's OCR service (`app/services/ocr.py`) to use the winning solution.
 - [ ] Task: Verify the end-to-end application flow with the new OCR logic.
 - [ ] Task: Update project documentation (Tech Stack if changed) and clean up experimental scripts if necessary.
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Integration & Wrap-up' (Protocol in workflow.md)
