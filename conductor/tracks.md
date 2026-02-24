@@ -9,5 +9,10 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Improve OCR performance**
+- [x] **Track: Improve OCR performance**
   *Link: [./tracks/improve_ocr_20260221/](./tracks/improve_ocr_20260221/)*
+
+---
+
+- [ ] **Track: Wishlist Management and Match Highlighting**
+  *Link: [./tracks/wishlist_matching_20260224/](./tracks/wishlist_matching_20260224/)*

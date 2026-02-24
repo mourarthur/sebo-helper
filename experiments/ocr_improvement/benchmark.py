@@ -2,6 +2,16 @@ import os
 import sys
 import pytesseract
 from PIL import Image
+import easyocr
+
+_easyocr_reader = None
+
+def get_easyocr_reader():
+    global _easyocr_reader
+    if _easyocr_reader is None:
+        # languages can be 'en', 'ch_sim', 'ja', 'ko', etc.
+        _easyocr_reader = easyocr.Reader(['en', 'pt']) # 'en' for English, 'pt' for Portuguese
+    return _easyocr_reader
 
 def levenshtein_distance(s1: str, s2: str) -> int:
     """Calculates the Levenshtein edit distance between two strings."""
@@ -42,13 +52,16 @@ def load_ground_truth(image_path: str) -> str:
     except FileNotFoundError:
         return ""
 
-def perform_ocr(image_path: str, config: str = "", lang: str = None) -> str:
+def perform_ocr(image_path: str, config: str = "", lang: str = None, preprocess: bool = False) -> str:
     """
     Runs Tesseract OCR on the image at the given path.
-    Accepts Tesseract configuration string and language.
+    Accepts Tesseract configuration string, language, and a preprocess flag.
     """
     try:
-        text = pytesseract.image_to_string(Image.open(image_path), config=config, lang=lang)
+        image = Image.open(image_path)
+        if preprocess:
+            image = preprocess_image(image)
+        text = pytesseract.image_to_string(image, config=config, lang=lang)
         return text.strip()
     except Exception as e:
         print(f"Error processing {image_path}: {e}")
@@ -73,7 +86,21 @@ def preprocess_image(image: Image.Image) -> Image.Image:
         print(f"Error during preprocessing: {e}")
         return image
 
-def run_benchmark(images_dir: str, tesseract_config: str = "", lang: str = None, preprocess: bool = False) -> list[dict]:
+def perform_ocr_easyocr(image_path: str, reader_instance) -> str:
+    """
+    Runs EasyOCR on the image at the given path.
+    """
+    try:
+        # EasyOCR expects image path or numpy array
+        # It handles its own preprocessing and rotation
+        result = reader_instance.readtext(image_path)
+        extracted_text = " ".join([text[1] for text in result])
+        return extracted_text.strip()
+    except Exception as e:
+        print(f"Error processing {image_path} with EasyOCR: {e}")
+        return ""
+
+def run_benchmark(images_dir: str, tesseract_config: str = "", lang: str = None, preprocess: bool = False, ocr_engine: str = "tesseract") -> list[dict]:
     """
     Iterates through images in the directory, runs OCR, and compares with ground truth.
     Returns a list of result dictionaries.
@@ -81,11 +108,22 @@ def run_benchmark(images_dir: str, tesseract_config: str = "", lang: str = None,
     results = []
     supported_exts = ('.jpg', '.jpeg', '.png', '.bmp', '.tiff')
     
+    # Initialize EasyOCR reader once if needed
+    easyocr_reader_instance = None
+    if ocr_engine == "easyocr":
+        easyocr_reader_instance = get_easyocr_reader()
+
     for filename in os.listdir(images_dir):
         if filename.lower().endswith(supported_exts):
             image_path = os.path.join(images_dir, filename)
             ground_truth = load_ground_truth(image_path)
-            extracted_text = perform_ocr(image_path, config=tesseract_config, lang=lang, preprocess=preprocess)
+            
+            if ocr_engine == "tesseract":
+                extracted_text = perform_ocr(image_path, config=tesseract_config, lang=lang, preprocess=preprocess)
+            elif ocr_engine == "easyocr":
+                extracted_text = perform_ocr_easyocr(image_path, easyocr_reader_instance)
+            else:
+                raise ValueError(f"Unknown OCR engine: {ocr_engine}")
             
             # Simple Levenshtein accuracy
             accuracy = calculate_accuracy(ground_truth, extracted_text)
@@ -134,7 +172,8 @@ if __name__ == "__main__":
     parser.add_argument("--oem", type=int, choices=range(0, 4), help="Tesseract OCR Engine Mode (0-3)")
     parser.add_argument("--lang", default="eng", help="Tesseract language code(s) (e.g., eng, por, eng+por)")
     parser.add_argument("--config", default="", help="Additional Tesseract config string")
-    parser.add_argument("--preprocess", action="store_true", help="Enable image preprocessing (rotation detection)")
+    parser.add_argument("--preprocess", action="store_true", help="Enable image preprocessing (rotation detection) for Tesseract.")
+    parser.add_argument("--engine", default="tesseract", choices=["tesseract", "easyocr"], help="OCR engine to use (tesseract or easyocr)")
     
     args = parser.parse_args()
 
@@ -144,7 +183,7 @@ if __name__ == "__main__":
     if args.oem is not None:
         tesseract_config += f" --oem {args.oem}"
 
-    benchmark_results = run_benchmark(args.directory, tesseract_config, args.lang, args.preprocess)
+    benchmark_results = run_benchmark(args.directory, tesseract_config, args.lang, args.preprocess, args.engine)
     
     if args.report:
         generate_markdown_report(benchmark_results, args.report)

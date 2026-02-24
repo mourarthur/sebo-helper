@@ -6,9 +6,9 @@
 - **Rationale:** FastAPI provides a fast, modern web framework with excellent performance and built-in support for asynchronous operations, which is beneficial for handling image processing tasks.
 
 ## OCR & Image Processing
-- **Primary Engine:** Tesseract OCR
+- **Primary Engine:** Tesseract OCR (PSM 12)
 - **Image Handling:** OpenCV / Pillow (PIL)
-- **Rationale:** Tesseract is a robust, open-source OCR engine. Combined with OpenCV or Pillow, it allows for the necessary image pre-processing (grayscale, thresholding, rotation) to improve extraction accuracy from media spines.
+- **Rationale:** Tesseract with PSM 12 ("Sparse text with OSD") provides robust handling of text orientation and layout for media spines, eliminating the need for complex external rotation or deskewing logic. OpenCV/Pillow are used for basic image loading and conversion.
 
 ## Frontend
 - **Template Engine:** Jinja2 (integrated with FastAPI)

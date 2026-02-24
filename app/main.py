@@ -1,9 +1,10 @@
-from fastapi import FastAPI, UploadFile, File, Request
+from fastapi import FastAPI, UploadFile, File, Request, Body
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
 from app.services.ocr import extract_text
 from app.services.persistence import save_extracted_titles, get_extracted_titles, clear_extracted_titles
+from app.services.wishlist import save_wishlist, get_wishlist
 
 app = FastAPI()
 
@@ -46,3 +47,12 @@ def get_results():
 def clear_results():
     clear_extracted_titles()
     return {"message": "Results cleared"}
+
+@app.get("/wishlist")
+def get_wishlist_endpoint():
+    return {"wishlist": get_wishlist()}
+
+@app.post("/wishlist")
+def save_wishlist_endpoint(items: list[str] = Body(embed=True)):
+    save_wishlist(items)
+    return {"message": "Wishlist updated"}
