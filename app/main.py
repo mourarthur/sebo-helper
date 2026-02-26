@@ -5,6 +5,7 @@ import os
 from app.services.ocr import extract_text
 from app.services.persistence import save_extracted_titles, get_extracted_titles, clear_extracted_titles
 from app.services.wishlist import save_wishlist, get_wishlist
+from app.services.matching import is_match
 
 app = FastAPI()
 
@@ -33,15 +34,20 @@ async def upload_image(file: UploadFile = File(...)):
     # Save to persistence
     save_extracted_titles(titles)
     
+    wishlist = get_wishlist()
+    results = [{"text": t, "is_match": is_match(t, wishlist)} for t in get_extracted_titles()]
+    
     return {
         "filename": file.filename, 
         "titles_found": len(titles),
-        "all_titles": get_extracted_titles()
+        "all_titles": results
     }
 
 @app.get("/results")
 def get_results():
-    return {"titles": get_extracted_titles()}
+    wishlist = get_wishlist()
+    results = [{"text": t, "is_match": is_match(t, wishlist)} for t in get_extracted_titles()]
+    return {"titles": results}
 
 @app.post("/clear")
 def clear_results():
