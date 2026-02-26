@@ -10,7 +10,7 @@
 - [x] Task: Add a new CSS class for highlighted matches in `app/static/css/style.css`. 622d207
 - [x] Task: Update `app/templates/index.html` to include a wishlist management section (text area and save button). 0eb67a1
 - [x] Task: Add JavaScript logic in `app/templates/index.html` to fetch and save the wishlist. 1a360e4
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Wishlist UI'
+- [~] Task: Conductor - User Manual Verification 'Phase 2: Wishlist UI'
 
 ## Phase 3: Match Highlighting Logic
 - [ ] Task: Create `app/services/matching.py` with a robust matching function (e.g., case-insensitive, fuzzy).
