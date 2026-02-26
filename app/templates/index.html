@@ -112,7 +112,37 @@ document.getElementById('clear-btn').onclick = function() {
   .then(() => updateResultsList([]));
 };
 
+// Wishlist Logic
+const wishlistInput = document.getElementById('wishlist-input');
+const saveWishlistBtn = document.getElementById('save-wishlist-btn');
+
+function fetchWishlist() {
+  fetch('/wishlist')
+    .then(response => response.json())
+    .then(data => {
+      wishlistInput.value = data.wishlist.join('\n');
+    });
+}
+
+saveWishlistBtn.onclick = function() {
+  const items = wishlistInput.value.split('\n').map(s => s.strip ? s.trim() : s).filter(s => s !== '');
+  fetch('/wishlist', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ items: items })
+  })
+  .then(response => response.json())
+  .then(data => {
+    alert('Wishlist saved!');
+  })
+  .catch(error => {
+    console.error('Error saving wishlist:', error);
+    alert('Error saving wishlist');
+  });
+};
+
 // Initial load
+fetchWishlist();
 fetch('/results')
   .then(response => response.json())
   .then(data => updateResultsList(data.titles));
