@@ -1,10 +1,10 @@
 # Implementation Plan: Wishlist Management and Match Highlighting
 
-## Phase 1: Wishlist Persistence & API
+## Phase 1: Wishlist Persistence & API [checkpoint: b726a02]
 - [x] Task: Create `app/services/wishlist.py` to handle wishlist persistence (save, get, clear).
 - [x] Task: Add unit tests for `app/services/wishlist.py` in `tests/test_wishlist.py`.
 - [x] Task: Add FastAPI endpoints to `app/main.py` for `/wishlist` (GET, POST).
-- [~] Task: Conductor - User Manual Verification 'Phase 1: Wishlist Persistence & API'
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Wishlist Persistence & API' b726a02
 
 ## Phase 2: Wishlist UI
 - [ ] Task: Add a new CSS class for highlighted matches in `app/static/css/style.css`.
