@@ -7,7 +7,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Wishlist Persistence & API' b726a02
 
 ## Phase 2: Wishlist UI
-- [ ] Task: Add a new CSS class for highlighted matches in `app/static/css/style.css`.
+- [x] Task: Add a new CSS class for highlighted matches in `app/static/css/style.css`. 622d207
 - [ ] Task: Update `app/templates/index.html` to include a wishlist management section (text area and save button).
 - [ ] Task: Add JavaScript logic in `app/templates/index.html` to fetch and save the wishlist.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Wishlist UI'
