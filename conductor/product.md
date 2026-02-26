@@ -13,7 +13,7 @@ The user wants an application that can receive a photo of a stack of used media 
 ## Core Features (MVP)
 - **Mobile-friendly Capture:** Interface for capturing or uploading photos while browsing.
 - **Spine-Optimized OCR:** Text extraction specifically tuned for the unique challenges of media spines (vertical text, stylized fonts).
-- **Wishlist Management:** A simple interface to manually type or paste a list of desired items.
+- **Wishlist Management:** A dedicated interface to paste, save, and persist a list of desired items (titles).
 - **Title Extraction List:** A plaintext list display of all titles extracted from the photo.
 
 ## Wishlist Integration

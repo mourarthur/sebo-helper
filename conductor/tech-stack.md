@@ -7,8 +7,9 @@
 
 ## OCR & Image Processing
 - **Primary Engine:** Tesseract OCR (PSM 12)
+- **Fuzzy Matching:** RapidFuzz
 - **Image Handling:** OpenCV / Pillow (PIL)
-- **Rationale:** Tesseract with PSM 12 ("Sparse text with OSD") provides robust handling of text orientation and layout for media spines, eliminating the need for complex external rotation or deskewing logic. OpenCV/Pillow are used for basic image loading and conversion.
+- **Rationale:** Tesseract with PSM 12 ("Sparse text with OSD") provides robust handling of text orientation and layout for media spines. RapidFuzz is used for robust matching of extracted titles against the wishlist, handling OCR errors and slight misspellings. OpenCV/Pillow are used for basic image loading and conversion.
 
 ## Frontend
 - **Template Engine:** Jinja2 (integrated with FastAPI)
