@@ -14,5 +14,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [~] **Track: Wishlist Management and Match Highlighting**
+- [x] **Track: Wishlist Management and Match Highlighting**
   *Link: [./tracks/wishlist_matching_20260224/](./tracks/wishlist_matching_20260224/)*
