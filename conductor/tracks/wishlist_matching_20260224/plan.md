@@ -12,12 +12,12 @@
 - [x] Task: Add JavaScript logic in `app/templates/index.html` to fetch and save the wishlist. 1a360e4
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Wishlist UI' 9c1cefd
 
-## Phase 3: Match Highlighting Logic
+## Phase 3: Match Highlighting Logic [checkpoint: bfd854b]
 - [x] Task: Create `app/services/matching.py` with a robust matching function (e.g., case-insensitive, fuzzy). ebe536b
 - [x] Task: Add unit tests for `app/services/matching.py` in `tests/test_matching.py`. ebe536b
 - [x] Task: Update `app/main.py`'s `/upload` endpoint to return match information with each title. 9f2c82a
 - [x] Task: Update `app/templates/index.html`'s `updateResultsList` function to apply highlighting based on match information. bf6129d
-- [~] Task: Conductor - User Manual Verification 'Phase 3: Match Highlighting Logic'
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Match Highlighting Logic' bfd854b
 
 ## Phase 4: Final Refinement & Verification
 - [ ] Task: Optimize fuzzy matching (e.g., using RapidFuzz or similar if needed).
