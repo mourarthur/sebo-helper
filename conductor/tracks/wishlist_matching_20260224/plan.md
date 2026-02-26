@@ -13,7 +13,7 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Wishlist UI' 9c1cefd
 
 ## Phase 3: Match Highlighting Logic
-- [ ] Task: Create `app/services/matching.py` with a robust matching function (e.g., case-insensitive, fuzzy).
+- [x] Task: Create `app/services/matching.py` with a robust matching function (e.g., case-insensitive, fuzzy). ebe536b
 - [ ] Task: Add unit tests for `app/services/matching.py` in `tests/test_matching.py`.
 - [ ] Task: Update `app/main.py`'s `/upload` endpoint to return match information with each title.
 - [ ] Task: Update `app/templates/index.html`'s `updateResultsList` function to apply highlighting based on match information.
