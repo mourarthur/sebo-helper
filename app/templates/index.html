@@ -102,7 +102,11 @@ function updateResultsList(titles) {
   list.innerHTML = '';
   titles.forEach(title => {
     let li = document.createElement('li');
-    li.textContent = title;
+    // title is now an object: {text: "...", is_match: true/false}
+    li.textContent = title.text || title; 
+    if (title.is_match) {
+      li.classList.add('wishlist-match');
+    }
     list.appendChild(li);
   });
 }
