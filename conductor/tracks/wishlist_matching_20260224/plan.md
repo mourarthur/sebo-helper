@@ -16,7 +16,7 @@
 - [x] Task: Create `app/services/matching.py` with a robust matching function (e.g., case-insensitive, fuzzy). ebe536b
 - [x] Task: Add unit tests for `app/services/matching.py` in `tests/test_matching.py`. ebe536b
 - [x] Task: Update `app/main.py`'s `/upload` endpoint to return match information with each title. 9f2c82a
-- [ ] Task: Update `app/templates/index.html`'s `updateResultsList` function to apply highlighting based on match information.
+- [x] Task: Update `app/templates/index.html`'s `updateResultsList` function to apply highlighting based on match information. bf6129d
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Match Highlighting Logic'
 
 ## Phase 4: Final Refinement & Verification
