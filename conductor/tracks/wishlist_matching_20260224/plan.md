@@ -6,11 +6,11 @@
 - [x] Task: Add FastAPI endpoints to `app/main.py` for `/wishlist` (GET, POST).
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Wishlist Persistence & API' b726a02
 
-## Phase 2: Wishlist UI
+## Phase 2: Wishlist UI [checkpoint: 9c1cefd]
 - [x] Task: Add a new CSS class for highlighted matches in `app/static/css/style.css`. 622d207
 - [x] Task: Update `app/templates/index.html` to include a wishlist management section (text area and save button). 0eb67a1
 - [x] Task: Add JavaScript logic in `app/templates/index.html` to fetch and save the wishlist. 1a360e4
-- [~] Task: Conductor - User Manual Verification 'Phase 2: Wishlist UI'
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Wishlist UI' 9c1cefd
 
 ## Phase 3: Match Highlighting Logic
 - [ ] Task: Create `app/services/matching.py` with a robust matching function (e.g., case-insensitive, fuzzy).
