@@ -19,3 +19,12 @@ def test_partial_match():
     from app.services.matching import is_match
     assert is_match("The Beatles - Revolver", ["Revolver"]) == True
     assert is_match("Revolver", ["The Beatles - Revolver"]) == True
+
+def test_fuzzy_match():
+    from app.services.matching import is_match
+    # OCR error: '0' instead of 'o'
+    assert is_match("P0irot Investiga", ["Poirot"]) == True
+    # Slight misspelling in wishlist
+    assert is_match("Agatha Christie", ["Agata Christie"]) == True
+    # Very different string should still not match
+    assert is_match("Rolling Stones", ["Beatles"]) == False
