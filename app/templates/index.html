@@ -15,10 +15,10 @@
     </div>
 </div>
 
-<div class="card" id="wishlist-section">
+<div class="card">
     <h2>Wishlist Management</h2>
     <p>Paste your wishlist items below (one per line).</p>
-    <textarea id="wishlist-input" style="width: 100%; height: 150px; margin-bottom: 1rem; box-sizing: border-box; padding: 0.5rem;"></textarea>
+    <textarea id="wishlist-input" class="wishlist-textarea"></textarea>
     <button id="save-wishlist-btn" class="btn btn-primary">Save Wishlist</button>
 </div>
 
@@ -129,7 +129,7 @@ function fetchWishlist() {
 }
 
 saveWishlistBtn.onclick = function() {
-  const items = wishlistInput.value.split('\n').map(s => s.strip ? s.trim() : s).filter(s => s !== '');
+  const items = wishlistInput.value.split('\n').map(s => s.trim()).filter(s => s !== '');
   fetch('/wishlist', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

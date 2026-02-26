@@ -17,7 +17,7 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @app.get("/")
 def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request, "index.html")
 
 @app.post("/upload")
 async def upload_image(file: UploadFile = File(...)):
@@ -56,9 +56,11 @@ def clear_results():
 
 @app.get("/wishlist")
 def get_wishlist_endpoint():
+    """Retrieves the current wishlist."""
     return {"wishlist": get_wishlist()}
 
 @app.post("/wishlist")
 def save_wishlist_endpoint(items: list[str] = Body(embed=True)):
+    """Updates the wishlist with the provided items."""
     save_wishlist(items)
     return {"message": "Wishlist updated"}
