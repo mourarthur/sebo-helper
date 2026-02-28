@@ -1,12 +1,12 @@
 # Implementation Plan - Offline PWA with Client-Side OCR
 
-## Phase 1: Project Setup & Dependencies
+## Phase 1: Project Setup & Dependencies [checkpoint: 3f8c645]
 - [x] Task: Initialize track structure and assets.
-    - [ ] Create `static/js/vendor` directory.
-    - [ ] Download/Copy `tesseract.min.js` (v5) and `worker.min.js` to vendor dir.
-    - [ ] Download/Copy `opencv.js` to vendor dir.
-    - [ ] Add `manifest.json` with app metadata and icons.
-    - [ ] Create `static/icons` directory and add placeholder icons (192x192, 512x512).
+    - [x] Create `static/js/vendor` directory.
+    - [x] Download/Copy `tesseract.min.js` (v5) and `worker.min.js` to vendor dir.
+    - [x] Download/Copy `opencv.js` to vendor dir.
+    - [x] Add `manifest.json` with app metadata and icons.
+    - [x] Create `static/icons` directory and add placeholder icons (192x192, 512x512).
 - [x] Task: Basic Service Worker Implementation.
     - [x] Create `service-worker.js` in root (or static, served from root).
     - [x] Implement strict caching for vendor JS and core CSS/HTML.
@@ -14,7 +14,7 @@
 - [x] Task: Create PWA Entry Point.
     - [x] Create `templates/pwa.html` (lightweight, mobile-focused structure).
     - [x] Add route `/pwa` in `main.py` to serve this template.
-- [ ] Task: Conductor - User Manual Verification 'Project Setup & Dependencies' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Project Setup & Dependencies' (Protocol in workflow.md)
 
 ## Phase 2: Client-Side Infrastructure
 - [ ] Task: Integrate Tesseract.js.
