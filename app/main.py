@@ -1,6 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, Request, Body
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import FileResponse
 import os
 from app.services.ocr import extract_text
 from app.services.persistence import save_extracted_titles, get_extracted_titles, clear_extracted_titles
@@ -14,6 +15,14 @@ templates = Jinja2Templates(directory="app/templates")
 
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+@app.get("/pwa")
+def pwa_app(request: Request):
+    return templates.TemplateResponse(request, "pwa.html")
+
+@app.get("/service-worker.js")
+async def service_worker():
+    return FileResponse("app/static/service-worker.js", media_type="application/javascript")
 
 @app.get("/")
 def read_root(request: Request):

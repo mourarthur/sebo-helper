@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Sebo Helper PWA{% endblock %}
+
+{% block head_meta %}
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#000000">
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(registration => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                })
+                .catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        });
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="pwa-app">
+    <div class="card">
+        <h2>Offline Mode</h2>
+        <p>This is the offline-capable PWA version of Sebo Helper.</p>
+        <div id="status-indicator">Checking status...</div>
+    </div>
+</div>
+{% endblock %}
