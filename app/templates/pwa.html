@@ -45,6 +45,13 @@
     </div>
 
     <div class="card">
+        <h2>Wishlist</h2>
+        <p>Paste items (one per line):</p>
+        <textarea id="wishlistInput" rows="5" style="width: 100%; border: 1px solid #ccc; padding: 5px;"></textarea>
+        <button id="saveWishlistBtn" class="btn btn-primary" style="margin-top: 5px;">Save Wishlist</button>
+    </div>
+
+    <div class="card">
         <h2>System Status</h2>
         <p>This is the offline-capable PWA version of Sebo Helper (v2).</p>
         <div id="status-indicator" style="font-weight: bold; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">Ready</div>
@@ -64,6 +71,8 @@
 
 <!-- Load App Scripts (define callbacks before vendor scripts load) -->
 <script src="/static/js/image-processor.js"></script>
+<script src="/static/js/storage.js"></script>
+<script src="/static/js/matching.js"></script>
 <!-- Load Vendor Libraries -->
 <script src="/static/js/vendor/tesseract.min.js"></script>
 <script async src="/static/js/vendor/opencv.js"></script>
@@ -75,6 +84,18 @@
     const extractBtn = document.getElementById('extractBtn');
     const resultsList = document.getElementById('pwa-results-list');
     const imageCanvas = document.getElementById('imageCanvas');
+    const wishlistInput = document.getElementById('wishlistInput');
+
+    // Load wishlist on start
+    const savedWishlist = window.storage.getWishlist();
+    if (savedWishlist.length > 0) {
+        wishlistInput.value = savedWishlist.join('\n');
+    }
+
+    document.getElementById('saveWishlistBtn').onclick = () => {
+        const items = window.storage.saveWishlist(wishlistInput.value);
+        alert(`Wishlist saved (${items.length} items)`);
+    };
 
     cameraInput.addEventListener('change', async (e) => {
         const file = e.target.files[0];
@@ -116,6 +137,7 @@
             document.getElementById('status-indicator').style.backgroundColor = '#d4edda';
             document.getElementById('progress-container').style.display = 'none';
             
+            const wishlist = window.storage.getWishlist();
             resultsList.innerHTML = '';
             const lines = text.split('\n').filter(line => line.trim().length > 0);
             if (lines.length === 0) {
@@ -126,6 +148,13 @@
                     li.textContent = line.trim();
                     li.style.borderBottom = '1px solid #eee';
                     li.style.padding = '5px 0';
+                    
+                    if (window.matching.isMatch(line.trim(), wishlist)) {
+                        li.style.backgroundColor = '#d4edda';
+                        li.style.fontWeight = 'bold';
+                        li.textContent += ' (MATCH!)';
+                    }
+                    
                     resultsList.appendChild(li);
                 });
             }

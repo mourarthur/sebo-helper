@@ -5,6 +5,8 @@ const ASSETS_TO_CACHE = [
   '/static/css/style.css',
   '/static/js/ocr-engine.js',
   '/static/js/image-processor.js',
+  '/static/js/storage.js',
+  '/static/js/matching.js',
   '/static/js/vendor/tesseract.min.js',
   '/static/js/vendor/worker.min.js',
   '/static/js/vendor/tesseract-core.wasm.js',
