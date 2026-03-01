@@ -30,7 +30,7 @@
     - [x] Display selected image on a `<canvas>` element.
 - [x] Task: Conductor - User Manual Verification 'Client-Side Infrastructure' (Protocol in workflow.md)
 
-## Phase 3: Core OCR Migration
+## Phase 3: Core OCR Migration [checkpoint: e2589d9]
 - [x] Task: Port Image Preprocessing.
     - [x] Implement `preprocessImage(canvas)` in `image-processor.js`.
     - [x] Port Grayscale logic (`cv.cvtColor`).
@@ -43,7 +43,7 @@
 - [x] Task: Add Progress Feedback.
     - [x] Implement progress bar using Tesseract.js logger callback.
     - [x] Show "Preprocessing..." state.
-- [ ] Task: Conductor - User Manual Verification 'Core OCR Migration' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Core OCR Migration' (Protocol in workflow.md)
 
 ## Phase 4: Data & Matching
 - [ ] Task: Local Storage Management.
