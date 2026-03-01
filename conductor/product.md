@@ -15,6 +15,7 @@ The user wants an application that can receive a photo of a stack of used media 
 - **Spine-Optimized OCR:** Text extraction specifically tuned for the unique challenges of media spines (vertical text, stylized fonts).
 - **Wishlist Management:** A dedicated interface to paste, save, and persist a list of desired items (titles).
 - **Title Extraction List:** A plaintext list display of all titles extracted from the photo.
+- **Offline PWA Mode:** Fully functional offline mode using client-side OCR (Tesseract.js/OpenCV.js) for use in locations without internet access.
 
 ## Wishlist Integration
 - Simple manual entry system where the user can paste their wishlist directly into the application.
