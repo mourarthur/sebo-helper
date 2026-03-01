@@ -56,7 +56,7 @@
     - [x] Highlight matches in the UI.
 - [x] Task: Conductor - User Manual Verification 'Data & Matching' (Protocol in workflow.md)
 
-## Phase 5: Refinement & Polish
+## Phase 5: Refinement & Polish [checkpoint: 4cd3ecb]
 - [x] Task: UI Styling for Mobile.
     - [x] Ensure touch targets are 44px+.
     - [x] Add "Install App" prompt logic.
@@ -64,4 +64,4 @@
 - [x] Task: Performance Tuning.
     - [x] Verify WASM caching (Network tab).
     - [x] Optimize image resize before processing (limit max dimension to 2000px).
-- [ ] Task: Conductor - User Manual Verification 'Refinement & Polish' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Refinement & Polish' (Protocol in workflow.md)
