@@ -16,7 +16,7 @@
     - [x] Add route `/pwa` in `main.py` to serve this template.
 - [x] Task: Conductor - User Manual Verification 'Project Setup & Dependencies' (Protocol in workflow.md)
 
-## Phase 2: Client-Side Infrastructure
+## Phase 2: Client-Side Infrastructure [checkpoint: 6ab0011]
 - [x] Task: Integrate Tesseract.js.
     - [x] Create `static/js/ocr-engine.js`.
     - [x] Implement Tesseract initialization and worker creation.
