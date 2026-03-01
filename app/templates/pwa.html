@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Sebo Helper PWA{% endblock %}
+{% block title %}Sebo Helper PWA v2{% endblock %}
 
 {% block head_meta %}
 <link rel="manifest" href="/static/manifest.json">
@@ -11,6 +11,8 @@
             navigator.serviceWorker.register('/service-worker.js')
                 .then(registration => {
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    // Force update check
+                    registration.update();
                 })
                 .catch(err => {
                     console.log('ServiceWorker registration failed: ', err);
@@ -23,9 +25,111 @@
 {% block content %}
 <div id="pwa-app">
     <div class="card">
-        <h2>Offline Mode</h2>
-        <p>This is the offline-capable PWA version of Sebo Helper.</p>
-        <div id="status-indicator">Checking status...</div>
+        <h2>Scan Media Spines</h2>
+        <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;">
+        <button onclick="document.getElementById('cameraInput').click()" class="btn btn-primary">Take Photo / Select Image</button>
+        <div style="margin-top: 10px; border: 1px dashed #ccc; min-height: 100px; display: flex; align-items: center; justify-content: center;">
+            <canvas id="imageCanvas" style="max-width: 100%; height: auto; display: none;"></canvas>
+            <p id="canvasPlaceholder">No image selected</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>System Status</h2>
+        <p>This is the offline-capable PWA version of Sebo Helper (v2).</p>
+        <div id="status-indicator" style="font-weight: bold; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">Ready</div>
+        <div style="margin-top: 10px;">
+            <button onclick="testOCR()" class="btn btn-secondary">Test OCR Initialization</button>
+            <button onclick="testOpenCV()" class="btn btn-secondary">Test OpenCV Initialization</button>
+        </div>
+        <pre id="log" style="background: #f0f0f0; padding: 10px; margin-top: 10px; overflow-x: auto; white-space: pre-wrap; font-size: 0.8em;"></pre>
     </div>
 </div>
+
+<!-- Load App Scripts (define callbacks before vendor scripts load) -->
+<script src="/static/js/image-processor.js"></script>
+<!-- Load Vendor Libraries -->
+<script src="/static/js/vendor/tesseract.min.js"></script>
+<script async src="/static/js/vendor/opencv.js"></script>
+<!-- Load App Scripts -->
+<script src="/static/js/ocr-engine.js"></script>
+
+<script>
+    document.getElementById('cameraInput').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        document.getElementById('status-indicator').innerText = "Loading image...";
+        document.getElementById('canvasPlaceholder').style.display = 'none';
+
+        const canvas = document.getElementById('imageCanvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.onload = () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            canvas.style.display = 'block';
+            document.getElementById('status-indicator').innerText = "Image loaded.";
+        };
+        img.onerror = () => {
+            document.getElementById('status-indicator').innerText = "Error loading image.";
+        };
+        img.src = URL.createObjectURL(file);
+    });
+
+    function updateOpenCvStatus() {
+        if (typeof isCvReady === 'function' && isCvReady()) {
+            document.getElementById('status-indicator').innerText = "OpenCV is ready! (v2)";
+            document.getElementById('status-indicator').style.backgroundColor = '#d4edda';
+            return true;
+        } else if (typeof cv !== 'undefined' && cv.getBuildInformation) {
+            // Already ready but isCvReady() is false (sync issue)
+            document.getElementById('status-indicator').innerText = "OpenCV is ready (sync fixed)! (v2)";
+            document.getElementById('status-indicator').style.backgroundColor = '#d4edda';
+            return true;
+        }
+        return false;
+    }
+
+    async function testOpenCV() {
+        if (updateOpenCvStatus()) {
+            // Already ready
+        } else {
+            document.getElementById('status-indicator').innerText = "Waiting for OpenCV to load (this can take 10-20s, 10MB file)...";
+            document.getElementById('status-indicator').style.backgroundColor = '#fff3cd';
+        }
+    }
+
+    window.addEventListener('opencv-ready', () => {
+        updateOpenCvStatus();
+    });
+    
+    // Check immediately on script load
+    updateOpenCvStatus();
+
+    async function testOCR() {
+        try {
+            document.getElementById('status-indicator').innerText = "Initializing OCR...";
+            await initTesseract();
+            document.getElementById('status-indicator').innerText = "OCR Initialized! Ready to scan.";
+            document.getElementById('status-indicator').style.backgroundColor = '#d1ecf1';
+        } catch (e) {
+            console.error(e);
+            document.getElementById('status-indicator').innerText = "Error: " + e.message;
+            document.getElementById('status-indicator').style.backgroundColor = '#f8d7da';
+        }
+    }
+    
+    window.addEventListener('ocr-progress', (e) => {
+        const log = document.getElementById('log');
+        const detail = e.detail;
+        if (detail.status === 'recognizing text') {
+             log.innerText = `Recognizing: ${(detail.progress * 100).toFixed(0)}%`;
+        } else {
+             log.innerText = detail.status;
+        }
+    });
+</script>
 {% endblock %}
+

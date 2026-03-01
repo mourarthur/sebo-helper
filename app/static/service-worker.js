@@ -1,12 +1,15 @@
-const CACHE_NAME = 'sebo-helper-v1';
+const CACHE_NAME = 'sebo-helper-v2';
 const ASSETS_TO_CACHE = [
   '/pwa',
   '/static/manifest.json',
   '/static/css/style.css',
+  '/static/js/ocr-engine.js',
+  '/static/js/image-processor.js',
   '/static/js/vendor/tesseract.min.js',
   '/static/js/vendor/worker.min.js',
   '/static/js/vendor/tesseract-core.wasm.js',
   '/static/js/vendor/opencv.js',
+  '/static/js/vendor/lang-data/eng.traineddata.gz',
   '/static/icons/icon-192x192.png',
   '/static/icons/icon-512x512.png'
 ];

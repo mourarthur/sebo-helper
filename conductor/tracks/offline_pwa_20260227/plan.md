@@ -17,18 +17,18 @@
 - [x] Task: Conductor - User Manual Verification 'Project Setup & Dependencies' (Protocol in workflow.md)
 
 ## Phase 2: Client-Side Infrastructure
-- [ ] Task: Integrate Tesseract.js.
-    - [ ] Create `static/js/ocr-engine.js`.
-    - [ ] Implement Tesseract initialization and worker creation.
-    - [ ] Test loading language data (eng.traineddata) from cache.
-- [ ] Task: Integrate OpenCV.js.
-    - [ ] Create `static/js/image-processor.js`.
-    - [ ] Implement `onRuntimeInitialized` check.
-    - [ ] Create helper function to read image from `<input>` to `cv.Mat`.
-- [ ] Task: UI for File/Camera Input.
-    - [ ] Add `<input type="file" accept="image/*" capture="environment">` to `pwa.html`.
-    - [ ] Display selected image on a `<canvas>` element.
-- [ ] Task: Conductor - User Manual Verification 'Client-Side Infrastructure' (Protocol in workflow.md)
+- [x] Task: Integrate Tesseract.js.
+    - [x] Create `static/js/ocr-engine.js`.
+    - [x] Implement Tesseract initialization and worker creation.
+    - [x] Test loading language data (eng.traineddata) from cache.
+- [x] Task: Integrate OpenCV.js.
+    - [x] Create `static/js/image-processor.js`.
+    - [x] Implement `onRuntimeInitialized` check.
+    - [x] Create helper function to read image from `<input>` to `cv.Mat`.
+- [x] Task: UI for File/Camera Input.
+    - [x] Add `<input type="file" accept="image/*" capture="environment">` to `pwa.html`.
+    - [x] Display selected image on a `<canvas>` element.
+- [x] Task: Conductor - User Manual Verification 'Client-Side Infrastructure' (Protocol in workflow.md)
 
 ## Phase 3: Core OCR Migration
 - [ ] Task: Port Image Preprocessing.

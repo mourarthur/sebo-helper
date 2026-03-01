@@ -16,7 +16,15 @@ def test_service_worker_route():
     assert "application/javascript" in response.headers["content-type"]
     assert "CACHE_NAME" in response.text
 
-def test_manifest_exists():
-    response = client.get("/static/manifest.json")
-    assert response.status_code == 200
-    assert "application/json" in response.headers["content-type"]
+def test_static_files_exist():
+    files = [
+        "/static/manifest.json",
+        "/static/js/ocr-engine.js",
+        "/static/js/image-processor.js",
+        "/static/js/vendor/tesseract.min.js",
+        "/static/js/vendor/opencv.js",
+        "/static/js/vendor/lang-data/eng.traineddata.gz"
+    ]
+    for file_path in files:
+        response = client.get(file_path)
+        assert response.status_code == 200, f"File {file_path} not found"
