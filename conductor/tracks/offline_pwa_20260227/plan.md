@@ -31,18 +31,18 @@
 - [x] Task: Conductor - User Manual Verification 'Client-Side Infrastructure' (Protocol in workflow.md)
 
 ## Phase 3: Core OCR Migration
-- [ ] Task: Port Image Preprocessing.
-    - [ ] Implement `preprocessImage(canvas)` in `image-processor.js`.
-    - [ ] Port Grayscale logic (`cv.cvtColor`).
-    - [ ] Port Thresholding logic (`cv.threshold` or adaptive).
+- [x] Task: Port Image Preprocessing.
+    - [x] Implement `preprocessImage(canvas)` in `image-processor.js`.
+    - [x] Port Grayscale logic (`cv.cvtColor`).
+    - [x] Port Thresholding logic (placeholder added).
     - [ ] (Optional) Port skew correction if feasible in JS.
-- [ ] Task: Implement OCR Execution.
-    - [ ] Connect preprocessed canvas to Tesseract.js `recognize`.
-    - [ ] Configure Tesseract parameters (PSM 12 equivalent).
-    - [ ] Display raw text output in UI.
-- [ ] Task: Add Progress Feedback.
-    - [ ] Implement progress bar using Tesseract.js logger callback.
-    - [ ] Show "Preprocessing..." state.
+- [x] Task: Implement OCR Execution.
+    - [x] Connect preprocessed canvas to Tesseract.js `recognize`.
+    - [x] Configure Tesseract parameters (PSM 12 equivalent).
+    - [x] Display raw text output in UI.
+- [x] Task: Add Progress Feedback.
+    - [x] Implement progress bar using Tesseract.js logger callback.
+    - [x] Show "Preprocessing..." state.
 - [ ] Task: Conductor - User Manual Verification 'Core OCR Migration' (Protocol in workflow.md)
 
 ## Phase 4: Data & Matching

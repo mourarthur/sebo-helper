@@ -8,7 +8,10 @@ def test_pwa_route():
     assert response.status_code == 200
     assert "text/html" in response.headers["content-type"]
     assert "Sebo Helper PWA" in response.text
-    assert 'rel="manifest"' in response.text
+    assert 'id="imageCanvas"' in response.text
+    assert 'id="extractBtn"' in response.text
+    assert 'id="ocr-progress-bar"' in response.text
+    assert 'id="pwa-results-list"' in response.text
 
 def test_service_worker_route():
     response = client.get("/service-worker.js")

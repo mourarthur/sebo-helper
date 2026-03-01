@@ -32,12 +32,28 @@
             <canvas id="imageCanvas" style="max-width: 100%; height: auto; display: none;"></canvas>
             <p id="canvasPlaceholder">No image selected</p>
         </div>
+        <div style="margin-top: 10px;">
+            <button id="extractBtn" class="btn btn-success" style="display: none;">Extract Text (Run OCR)</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Extracted Titles</h2>
+        <ul id="pwa-results-list" style="list-style: none; padding: 0;">
+            <li style="color: #666; font-style: italic;">No titles extracted yet</li>
+        </ul>
     </div>
 
     <div class="card">
         <h2>System Status</h2>
         <p>This is the offline-capable PWA version of Sebo Helper (v2).</p>
         <div id="status-indicator" style="font-weight: bold; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">Ready</div>
+        
+        <div id="progress-container" style="display: none; margin-top: 10px;">
+            <progress id="ocr-progress-bar" value="0" max="100" style="width: 100%;"></progress>
+            <div id="progress-text" style="font-size: 0.8em; text-align: center; color: #666;">0%</div>
+        </div>
+
         <div style="margin-top: 10px;">
             <button onclick="testOCR()" class="btn btn-secondary">Test OCR Initialization</button>
             <button onclick="testOpenCV()" class="btn btn-secondary">Test OpenCV Initialization</button>
@@ -55,28 +71,70 @@
 <script src="/static/js/ocr-engine.js"></script>
 
 <script>
-    document.getElementById('cameraInput').addEventListener('change', async (e) => {
+    const cameraInput = document.getElementById('cameraInput');
+    const extractBtn = document.getElementById('extractBtn');
+    const resultsList = document.getElementById('pwa-results-list');
+    const imageCanvas = document.getElementById('imageCanvas');
+
+    cameraInput.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
         document.getElementById('status-indicator').innerText = "Loading image...";
         document.getElementById('canvasPlaceholder').style.display = 'none';
 
-        const canvas = document.getElementById('imageCanvas');
-        const ctx = canvas.getContext('2d');
+        const ctx = imageCanvas.getContext('2d');
         const img = new Image();
         img.onload = () => {
-            canvas.width = img.width;
-            canvas.height = img.height;
+            imageCanvas.width = img.width;
+            imageCanvas.height = img.height;
             ctx.drawImage(img, 0, 0);
-            canvas.style.display = 'block';
+            imageCanvas.style.display = 'block';
             document.getElementById('status-indicator').innerText = "Image loaded.";
+            extractBtn.style.display = 'block';
         };
         img.onerror = () => {
             document.getElementById('status-indicator').innerText = "Error loading image.";
         };
         img.src = URL.createObjectURL(file);
     });
+
+    extractBtn.onclick = async () => {
+        try {
+            document.getElementById('status-indicator').innerText = "Preprocessing image...";
+            document.getElementById('status-indicator').style.backgroundColor = '#fff3cd';
+            
+            // 1. Preprocess
+            const processedCanvas = preprocessCanvas(imageCanvas);
+            
+            // 2. Run OCR
+            document.getElementById('status-indicator').innerText = "Running OCR (Tesseract)...";
+            const text = await runOCR(processedCanvas);
+            
+            // 3. Display Results
+            document.getElementById('status-indicator').innerText = "OCR Complete!";
+            document.getElementById('status-indicator').style.backgroundColor = '#d4edda';
+            document.getElementById('progress-container').style.display = 'none';
+            
+            resultsList.innerHTML = '';
+            const lines = text.split('\n').filter(line => line.trim().length > 0);
+            if (lines.length === 0) {
+                resultsList.innerHTML = '<li>No text found in image</li>';
+            } else {
+                lines.forEach(line => {
+                    const li = document.createElement('li');
+                    li.textContent = line.trim();
+                    li.style.borderBottom = '1px solid #eee';
+                    li.style.padding = '5px 0';
+                    resultsList.appendChild(li);
+                });
+            }
+        } catch (err) {
+            console.error(err);
+            document.getElementById('status-indicator').innerText = "OCR Error: " + err.message;
+            document.getElementById('status-indicator').style.backgroundColor = '#f8d7da';
+        }
+    };
 
     function updateOpenCvStatus() {
         if (typeof isCvReady === 'function' && isCvReady()) {
@@ -122,8 +180,21 @@
     }
     
     window.addEventListener('ocr-progress', (e) => {
-        const log = document.getElementById('log');
         const detail = e.detail;
+        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('ocr-progress-bar');
+        const progressText = document.getElementById('progress-text');
+        
+        if (detail.progress !== undefined && detail.progress >= 0 && detail.progress <= 1) {
+            progressContainer.style.display = 'block';
+            const percent = Math.round(detail.progress * 100);
+            progressBar.value = percent;
+            progressText.innerText = `${detail.status}: ${percent}%`;
+        } else {
+            progressText.innerText = detail.status;
+        }
+
+        const log = document.getElementById('log');
         if (detail.status === 'recognizing text') {
              log.innerText = `Recognizing: ${(detail.progress * 100).toFixed(0)}%`;
         } else {
@@ -132,4 +203,3 @@
     });
 </script>
 {% endblock %}
-
