@@ -130,3 +130,28 @@ li {
         font-size: 1.25rem;
     }
 }
+
+/* PWA Specific Styles */
+button, .btn, input[type="file"] + label {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 10px 15px; /* Ensure sufficient padding */
+    touch-action: manipulation;
+}
+
+#pwa-app {
+    padding-bottom: 20px;
+}
+
+/* Offline Indicator */
+.offline-banner {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 0.5rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}

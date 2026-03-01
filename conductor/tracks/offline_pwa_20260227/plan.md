@@ -57,11 +57,11 @@
 - [x] Task: Conductor - User Manual Verification 'Data & Matching' (Protocol in workflow.md)
 
 ## Phase 5: Refinement & Polish
-- [ ] Task: UI Styling for Mobile.
-    - [ ] Ensure touch targets are 44px+.
-    - [ ] Add "Install App" prompt logic.
-    - [ ] Verify "Offline" indicator visibility.
-- [ ] Task: Performance Tuning.
-    - [ ] Verify WASM caching (Network tab).
-    - [ ] Optimize image resize before processing (limit max dimension to 2000px).
+- [x] Task: UI Styling for Mobile.
+    - [x] Ensure touch targets are 44px+.
+    - [x] Add "Install App" prompt logic.
+    - [x] Verify "Offline" indicator visibility.
+- [x] Task: Performance Tuning.
+    - [x] Verify WASM caching (Network tab).
+    - [x] Optimize image resize before processing (limit max dimension to 2000px).
 - [ ] Task: Conductor - User Manual Verification 'Refinement & Polish' (Protocol in workflow.md)

@@ -80,6 +80,57 @@
 <script src="/static/js/ocr-engine.js"></script>
 
 <script>
+    // Offline Status
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+
+    function updateOnlineStatus() {
+        const bannerId = 'offline-banner';
+        let banner = document.getElementById(bannerId);
+        
+        if (!navigator.onLine) {
+            if (!banner) {
+                banner = document.createElement('div');
+                banner.id = bannerId;
+                banner.className = 'offline-banner';
+                banner.innerText = 'You are currently offline. App is fully functional.';
+                document.body.appendChild(banner);
+            }
+        } else {
+            if (banner) {
+                banner.remove();
+            }
+        }
+    }
+    updateOnlineStatus();
+
+    // Install Prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        const installBtn = document.createElement('button');
+        installBtn.id = 'installBtn';
+        installBtn.className = 'btn btn-primary';
+        installBtn.innerText = 'Install Sebo Helper';
+        installBtn.style.display = 'block';
+        installBtn.style.width = '100%';
+        installBtn.style.marginBottom = '10px';
+        
+        installBtn.onclick = async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                installBtn.remove();
+            }
+        };
+        
+        const appDiv = document.getElementById('pwa-app');
+        appDiv.insertBefore(installBtn, appDiv.firstChild);
+    });
+
     const cameraInput = document.getElementById('cameraInput');
     const extractBtn = document.getElementById('extractBtn');
     const resultsList = document.getElementById('pwa-results-list');

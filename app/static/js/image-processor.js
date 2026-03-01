@@ -63,11 +63,25 @@ async function loadImageToMat(file) {
         reader.onload = (event) => {
             const img = new Image();
             img.onload = () => {
+                const MAX_DIM = 2000;
+                let width = img.width;
+                let height = img.height;
+
+                if (width > MAX_DIM || height > MAX_DIM) {
+                    if (width > height) {
+                        height = Math.round(height * (MAX_DIM / width));
+                        width = MAX_DIM;
+                    } else {
+                        width = Math.round(width * (MAX_DIM / height));
+                        height = MAX_DIM;
+                    }
+                }
+
                 const canvas = document.createElement('canvas');
-                canvas.width = img.width;
-                canvas.height = img.height;
+                canvas.width = width;
+                canvas.height = height;
                 const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
+                ctx.drawImage(img, 0, 0, width, height);
                 
                 try {
                     const mat = cv.imread(canvas);
