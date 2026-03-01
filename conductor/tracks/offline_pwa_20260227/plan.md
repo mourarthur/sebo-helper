@@ -45,7 +45,7 @@
     - [x] Show "Preprocessing..." state.
 - [x] Task: Conductor - User Manual Verification 'Core OCR Migration' (Protocol in workflow.md)
 
-## Phase 4: Data & Matching
+## Phase 4: Data & Matching [checkpoint: 0713fe8]
 - [x] Task: Local Storage Management.
     - [x] Create `static/js/storage.js`.
     - [x] Implement `saveWishlist(text)` and `getWishlist()`.
@@ -54,7 +54,7 @@
     - [x] Import `fuzzball` or implementing basic Levenshtein in `static/js/matching.js`.
     - [x] Implement matching logic: Compare extracted lines vs wishlist items.
     - [x] Highlight matches in the UI.
-- [ ] Task: Conductor - User Manual Verification 'Data & Matching' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Data & Matching' (Protocol in workflow.md)
 
 ## Phase 5: Refinement & Polish
 - [ ] Task: UI Styling for Mobile.
