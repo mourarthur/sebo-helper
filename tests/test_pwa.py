@@ -24,6 +24,7 @@ def test_static_files_exist():
         "/static/manifest.json",
         "/static/js/ocr-engine.js",
         "/static/js/image-processor.js",
+        "/static/js/pwa.js",
         "/static/js/vendor/tesseract.min.js",
         "/static/js/vendor/opencv.js",
         "/static/js/vendor/lang-data/eng.traineddata.gz"
