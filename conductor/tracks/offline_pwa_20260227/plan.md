@@ -65,3 +65,6 @@
     - [x] Verify WASM caching (Network tab).
     - [x] Optimize image resize before processing (limit max dimension to 2000px).
 - [x] Task: Conductor - User Manual Verification 'Refinement & Polish' (Protocol in workflow.md)
+
+## Phase: Review Fixes
+- [x] Task: Apply review suggestions 8ff81bc
