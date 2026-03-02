@@ -12,7 +12,3 @@ This file tracks all major tracks for the project. Each track has its own detail
 - [x] **Track: Improve OCR performance**
   *Link: [./tracks/improve_ocr_20260221/](./tracks/improve_ocr_20260221/)*
 
----
-
-- [x] **Track: Offline PWA with Client-Side OCR**
-  *Link: [./tracks/offline_pwa_20260227/](./tracks/offline_pwa_20260227/)*
