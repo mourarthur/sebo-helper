@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="robots" content="noindex, nofollow, noarchive, noimageindex, notranslate">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sebo Helper PWA v2</title>
+    
+<link rel="manifest" href="./static/manifest.json">
+<meta name="theme-color" content="#000000">
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./service-worker.js')
+                .then(registration => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    // Force update check
+                    registration.update();
+                })
+                .catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        });
+    }
+</script>
+
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Sebo Helper</h1>
+    </header>
+    <main>
+        
+<div id="pwa-app">
+    <div class="card">
+        <h2>Scan Media Spines</h2>
+        <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;">
+        <button onclick="document.getElementById('cameraInput').click()" class="btn btn-primary">Take Photo / Select Image</button>
+        <div style="margin-top: 10px; border: 1px dashed #ccc; min-height: 100px; display: flex; align-items: center; justify-content: center;">
+            <canvas id="imageCanvas" style="max-width: 100%; height: auto; display: none;"></canvas>
+            <p id="canvasPlaceholder">No image selected</p>
+        </div>
+        <div style="margin-top: 10px;">
+            <button id="extractBtn" class="btn btn-success" style="display: none;">Extract Text (Run OCR)</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Extracted Titles</h2>
+        <ul id="pwa-results-list" style="list-style: none; padding: 0;">
+            <li style="color: #666; font-style: italic;">No titles extracted yet</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Wishlist</h2>
+        <p>Paste items (one per line):</p>
+        <textarea id="wishlistInput" rows="5" style="width: 100%; border: 1px solid #ccc; padding: 5px;"></textarea>
+        <button id="saveWishlistBtn" class="btn btn-primary" style="margin-top: 5px;">Save Wishlist</button>
+    </div>
+
+    <div class="card">
+        <h2>System Status</h2>
+        <p>This is the offline-capable PWA version of Sebo Helper (v2).</p>
+        <div id="status-indicator" style="font-weight: bold; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">Ready</div>
+        
+        <div id="progress-container" style="display: none; margin-top: 10px;">
+            <progress id="ocr-progress-bar" value="0" max="100" style="width: 100%;"></progress>
+            <div id="progress-text" style="font-size: 0.8em; text-align: center; color: #666;">0%</div>
+        </div>
+
+        <div style="margin-top: 10px;">
+            <button onclick="testOCR()" class="btn btn-secondary">Test OCR Initialization</button>
+            <button onclick="testOpenCV()" class="btn btn-secondary">Test OpenCV Initialization</button>
+        </div>
+        <pre id="log" style="background: #f0f0f0; padding: 10px; margin-top: 10px; overflow-x: auto; white-space: pre-wrap; font-size: 0.8em;"></pre>
+    </div>
+</div>
+
+<!-- Load App Scripts (define callbacks before vendor scripts load) -->
+<script src="./static/js/image-processor.js"></script>
+<script src="./static/js/storage.js"></script>
+<script src="./static/js/matching.js"></script>
+<!-- Load Vendor Libraries -->
+<script src="./static/js/vendor/tesseract.min.js"></script>
+<script async src="./static/js/vendor/opencv.js"></script>
+<!-- Load App Scripts -->
+<script src="./static/js/ocr-engine.js"></script>
+<script src="./static/js/pwa.js"></script>
+
+    </main>
+    <footer>
+        <p>&copy; 2026 Sebo Helper</p>
+    </footer>
+</body>
+</html>
