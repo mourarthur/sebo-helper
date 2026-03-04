@@ -1,8 +1,8 @@
 # Sebo Helper
 
-> **Note:** This is a "vibecoded" project. It was developed experimentally with an AI assistant to explore rapid prototyping and offline-first PWA capabilities. It is provided "as-is" for educational purposes.
+> **Note:** This is a "vibecoded" (complimentary) project. It was developed experimentally with an AI assistant to explore rapid prototyping and offline-first PWA capabilities. 
 
-**Sebo Helper** is a Progressive Web App (PWA) designed to help collectors find items from their wishlist in used media stores ("sebos"). It runs completely offline on your mobile device.
+**Sebo Helper** is a Progressive Web App (PWA) designed to help collectors find items from their wishlist in "sebos" (colloquial term for used book and media stores). It runs completely offline on your mobile device.
 
 ## Features
 - **Offline First:** Works without an internet connection once installed.
