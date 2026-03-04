@@ -4,3 +4,9 @@ venv/
 .coverage
 htmlcov/
 .pytest_cache/
+uploads/
+results.json
+wishlist.json
+.DS_Store
+.env
+.gemini/
