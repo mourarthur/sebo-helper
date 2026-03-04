@@ -52,6 +52,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 });
 
 const cameraInput = document.getElementById('cameraInput');
+const galleryInput = document.getElementById('galleryInput');
 const extractBtn = document.getElementById('extractBtn');
 const resultsList = document.getElementById('pwa-results-list');
 const imageCanvas = document.getElementById('imageCanvas');
@@ -60,8 +61,7 @@ const wishlistInput = document.getElementById('wishlistInput');
 // Load wishlist on start
 const savedWishlist = window.storage.getWishlist();
 if (savedWishlist.length > 0 && wishlistInput) {
-    wishlistInput.value = savedWishlist.join('
-');
+    wishlistInput.value = savedWishlist.join('\n');
 }
 
 if (document.getElementById('saveWishlistBtn')) {
@@ -71,29 +71,43 @@ if (document.getElementById('saveWishlistBtn')) {
     };
 }
 
-if (cameraInput) {
-    cameraInput.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
+function handleFileSelect(e) {
+    const file = e.target.files[0];
+    if (!file) return;
 
-        document.getElementById('status-indicator').innerText = "Loading image...";
-        document.getElementById('canvasPlaceholder').style.display = 'none';
+    document.getElementById('status-indicator').innerText = "Loading image...";
+    document.getElementById('canvasPlaceholder').style.display = 'none';
+    if (extractBtn) extractBtn.style.display = 'none';
 
-        const ctx = imageCanvas.getContext('2d');
-        const img = new Image();
-        img.onload = () => {
-            imageCanvas.width = img.width;
-            imageCanvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-            imageCanvas.style.display = 'block';
-            document.getElementById('status-indicator').innerText = "Image loaded.";
+    const ctx = imageCanvas.getContext('2d');
+    const img = new Image();
+    img.onload = () => {
+        // Simple scale if too large for display (not for processing yet)
+        const maxWidth = window.innerWidth - 40;
+        const scale = Math.min(1, maxWidth / img.width);
+        imageCanvas.width = img.width * scale;
+        imageCanvas.height = img.height * scale;
+        
+        ctx.drawImage(img, 0, 0, imageCanvas.width, imageCanvas.height);
+        imageCanvas.style.display = 'block';
+        document.getElementById('status-indicator').innerText = "Image loaded.";
+        
+        if (extractBtn) {
             extractBtn.style.display = 'block';
-        };
-        img.onerror = () => {
-            document.getElementById('status-indicator').innerText = "Error loading image.";
-        };
-        img.src = URL.createObjectURL(file);
-    });
+            console.log('Show extract button');
+        }
+    };
+    img.onerror = () => {
+        document.getElementById('status-indicator').innerText = "Error loading image.";
+    };
+    img.src = URL.createObjectURL(file);
+}
+
+if (cameraInput) {
+    cameraInput.addEventListener('change', handleFileSelect);
+}
+if (galleryInput) {
+    galleryInput.addEventListener('change', handleFileSelect);
 }
 
 if (extractBtn) {

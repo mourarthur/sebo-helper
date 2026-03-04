@@ -4,7 +4,7 @@
     <meta name="robots" content="noindex, nofollow, noarchive, noimageindex, notranslate">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sebo Helper PWA v2</title>
+    <title>Sebo Helper PWA v3</title>
     
 <link rel="manifest" href="./static/manifest.json">
 <meta name="theme-color" content="#000000">
@@ -35,14 +35,26 @@
 <div id="pwa-app">
     <div class="card">
         <h2>Scan Media Spines</h2>
+        
+        <!-- Inputs -->
         <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;">
-        <button onclick="document.getElementById('cameraInput').click()" class="btn btn-primary">Take Photo / Select Image</button>
-        <div style="margin-top: 10px; border: 1px dashed #ccc; min-height: 100px; display: flex; align-items: center; justify-content: center;">
-            <canvas id="imageCanvas" style="max-width: 100%; height: auto; display: none;"></canvas>
-            <p id="canvasPlaceholder">No image selected</p>
+        <input type="file" id="galleryInput" accept="image/*" style="display: none;">
+        
+        <!-- Controls -->
+        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+            <button onclick="document.getElementById('cameraInput').click()" class="btn btn-primary" style="flex: 1;">Take Photo</button>
+            <button onclick="document.getElementById('galleryInput').click()" class="btn btn-secondary" style="flex: 1;">Upload</button>
         </div>
+
+        <!-- Preview -->
+        <div style="margin-top: 10px; border: 1px dashed #ccc; min-height: 100px; display: flex; align-items: center; justify-content: center; background: #f9f9f9;">
+            <canvas id="imageCanvas" style="max-width: 100%; height: auto; display: none;"></canvas>
+            <p id="canvasPlaceholder" style="color: #aaa;">No image selected</p>
+        </div>
+        
+        <!-- Action -->
         <div style="margin-top: 10px;">
-            <button id="extractBtn" class="btn btn-success" style="display: none;">Extract Text (Run OCR)</button>
+            <button id="extractBtn" class="btn btn-success" style="display: none; width: 100%; font-weight: bold; font-size: 1.1em;">Extract Text (Run OCR)</button>
         </div>
     </div>
 
@@ -62,7 +74,7 @@
 
     <div class="card">
         <h2>System Status</h2>
-        <p>This is the offline-capable PWA version of Sebo Helper (v2).</p>
+        <p>This is the offline-capable PWA version of Sebo Helper (v3).</p>
         <div id="status-indicator" style="font-weight: bold; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">Ready</div>
         
         <div id="progress-container" style="display: none; margin-top: 10px;">

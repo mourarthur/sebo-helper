@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sebo-helper-v2';
+const CACHE_NAME = 'sebo-helper-v3';
 const ASSETS_TO_CACHE = [
   '/pwa',
   '/static/manifest.json',
@@ -19,6 +19,7 @@ const ASSETS_TO_CACHE = [
 
 self.addEventListener('install', (event) => {
   console.log('[Service Worker] Installing Service Worker ...', event);
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
