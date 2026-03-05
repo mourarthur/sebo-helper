@@ -184,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             if (window.matching && window.matching.isMatch(line.trim(), wishlist)) {
                                 li.style.backgroundColor = '#d4edda';
                                 li.style.fontWeight = 'bold';
-                                li.textContent += ' (MATCH!)';
                             }
                             
                             resultsList.appendChild(li);
