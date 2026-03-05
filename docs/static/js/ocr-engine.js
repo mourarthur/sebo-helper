@@ -9,9 +9,9 @@ async function initTesseract() {
     
     try {
         ocrWorker = await Tesseract.createWorker("eng", 1, {
-            workerPath: '/static/js/vendor/worker.min.js',
-            corePath: '/static/js/vendor/tesseract-core.wasm.js',
-            langPath: '/static/js/vendor/lang-data/',
+            workerPath: './static/js/vendor/worker.min.js',
+            corePath: './static/js/vendor/tesseract-core.wasm.js',
+            langPath: './static/js/vendor/lang-data/',
             logger: m => {
                 console.log(m);
                 const event = new CustomEvent('ocr-progress', { detail: m });

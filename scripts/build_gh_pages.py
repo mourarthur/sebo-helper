@@ -72,13 +72,31 @@ def process_html():
     html = html.replace("'/service-worker.js'", "'./service-worker.js'")
     html = html.replace('"/service-worker.js"', '"./service-worker.js"')
     
-    # Fix manifest link if missed
-    html = html.replace('href="/static/manifest.json"', 'href="./static/manifest.json"')
-
+    # Replace Tesseract worker paths
+    # We need to manually adjust the paths in ocr-engine.js because they are hardcoded
+    # But wait, ocr-engine.js is a static file. 
+    # We should probably do a replace on the file content in docs/static/js/ocr-engine.js
+    
     # Write index.html
     with open(os.path.join(OUTPUT_DIR, "index.html"), "w") as f:
         f.write(html)
     print("Generated docs/index.html")
+
+def process_js_files():
+    # Fix paths in ocr-engine.js
+    ocr_path = os.path.join(OUTPUT_DIR, "static/js/ocr-engine.js")
+    if os.path.exists(ocr_path):
+        with open(ocr_path, "r") as f:
+            content = f.read()
+        
+        # Replace absolute paths with relative ones for GH Pages
+        # /static/js/vendor/ -> ./static/js/vendor/
+        content = content.replace("'/static/", "'./static/")
+        content = content.replace('"/static/', '"./static/')
+        
+        with open(ocr_path, "w") as f:
+            f.write(content)
+        print("Updated docs/static/js/ocr-engine.js")
 
 def process_service_worker():
     sw_path = os.path.join(OUTPUT_DIR, "service-worker.js")
@@ -112,6 +130,7 @@ def main():
     clean_and_create_dir(OUTPUT_DIR)
     copy_static_assets()
     process_html()
+    process_js_files()
     process_service_worker()
     create_robots_txt()
     create_nojekyll()

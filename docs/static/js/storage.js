@@ -7,8 +7,7 @@ const STORAGE_KEYS = {
 
 function saveWishlist(text) {
     // Clean and split by newline, filter empty
-    const items = text.split('
-').map(s => s.trim()).filter(s => s.length > 0);
+    const items = text.split('\n').map(s => s.trim()).filter(s => s.length > 0);
     localStorage.setItem(STORAGE_KEYS.WISHLIST, JSON.stringify(items));
     return items;
 }
