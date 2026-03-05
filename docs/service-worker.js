@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sebo-helper-v3';
+const CACHE_NAME = 'sebo-helper-v3.1';
 const ASSETS_TO_CACHE = [
   './index.html', './',
   './static/manifest.json',
