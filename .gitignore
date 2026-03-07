@@ -10,3 +10,4 @@ wishlist.json
 .DS_Store
 .env
 .gemini/
+training-images/
