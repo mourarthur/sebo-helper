@@ -150,20 +150,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 const progressContainer = document.getElementById('progress-container');
                 
                 if (indicator) {
-                    indicator.innerText = "Preprocessing image...";
+                    indicator.innerText = "Pass 1/2: Preprocessing...";
                     indicator.style.backgroundColor = '#fff3cd';
                 }
                 
-                // 1. Preprocess
+                // --- PASS 1: Standard ---
                 const processedCanvas = preprocessCanvas(imageCanvas);
+                if (indicator) indicator.innerText = "Pass 1/2: Running OCR...";
+                const text1 = await runOCR(processedCanvas);
                 
-                // 2. Run OCR
-                if (indicator) indicator.innerText = "Running OCR (Tesseract)...";
-                const text = await runOCR(processedCanvas);
+                // --- PASS 2: Rotated ---
+                if (indicator) indicator.innerText = "Pass 2/2: Rotating image...";
+                const rotatedCanvas = rotateCanvas(imageCanvas);
+                const processedRotatedCanvas = preprocessCanvas(rotatedCanvas);
+                if (indicator) indicator.innerText = "Pass 2/2: Running OCR...";
+                const text2 = await runOCR(processedRotatedCanvas);
                 
-                // 3. Display Results
+                // Combine results
+                const combinedText = text1 + "\n" + text2;
+                
+                // --- Display Results ---
                 if (indicator) {
-                    indicator.innerText = "OCR Complete!";
+                    indicator.innerText = "Dual-Pass OCR Complete!";
                     indicator.style.backgroundColor = '#d4edda';
                 }
                 if (progressContainer) progressContainer.style.display = 'none';
@@ -171,17 +179,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 const wishlist = window.storage ? window.storage.getWishlist() : [];
                 if (resultsList) {
                     resultsList.innerHTML = '';
-                    const lines = text.split('\n').filter(line => line.trim().length > 0);
+                    const lines = combinedText.split('\n').filter(line => line.trim().length > 0);
                     if (lines.length === 0) {
                         resultsList.innerHTML = '<li>No text found in image</li>';
                     } else {
-                        lines.forEach(line => {
+                        // Use a Set to avoid duplicate lines between passes
+                        const uniqueLines = [...new Set(lines.map(l => l.trim()))];
+                        uniqueLines.forEach(line => {
                             const li = document.createElement('li');
-                            li.textContent = line.trim();
+                            li.textContent = line;
                             li.style.borderBottom = '1px solid #eee';
                             li.style.padding = '5px 0';
                             
-                            if (window.matching && window.matching.isMatch(line.trim(), wishlist)) {
+                            if (window.matching && window.matching.isMatch(line, wishlist)) {
                                 li.style.backgroundColor = '#d4edda';
                                 li.style.fontWeight = 'bold';
                             }
@@ -207,12 +217,12 @@ function updateOpenCvStatus() {
     if (!indicator) return false;
 
     if (typeof isCvReady === 'function' && isCvReady()) {
-        indicator.innerText = "OpenCV is ready! (v3.1)";
+        indicator.innerText = "OpenCV is ready! (v3.2)";
         indicator.style.backgroundColor = '#d4edda';
         return true;
     } else if (typeof cv !== 'undefined' && cv.getBuildInformation) {
         // Already ready but isCvReady() is false (sync issue)
-        indicator.innerText = "OpenCV is ready (sync fixed)! (v3.1)";
+        indicator.innerText = "OpenCV is ready (sync fixed)! (v3.2)";
         indicator.style.backgroundColor = '#d4edda';
         return true;
     }

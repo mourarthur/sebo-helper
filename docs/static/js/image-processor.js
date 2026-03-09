@@ -130,7 +130,31 @@ function preprocessCanvas(sourceCanvas) {
     return outCanvas;
 }
 
+/**
+ * Creates a 90-degree clockwise rotated copy of a canvas.
+ * @param {HTMLCanvasElement} sourceCanvas 
+ * @returns {HTMLCanvasElement}
+ */
+function rotateCanvas(sourceCanvas) {
+    if (!cvReady) throw new Error("OpenCV not ready");
+    
+    let src = cv.imread(sourceCanvas);
+    let dst = new cv.Mat();
+    
+    // Rotate 90 degrees clockwise
+    cv.rotate(src, dst, cv.ROTATE_90_CLOCKWISE);
+    
+    const outCanvas = document.createElement('canvas');
+    cv.imshow(outCanvas, dst);
+    
+    src.delete();
+    dst.delete();
+    
+    return outCanvas;
+}
+
 // Expose utilities
 window.loadImageToMat = loadImageToMat;
 window.preprocessCanvas = preprocessCanvas;
+window.rotateCanvas = rotateCanvas;
 window.isCvReady = () => cvReady;
