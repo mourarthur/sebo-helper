@@ -1,28 +1,48 @@
-import pytesseract
+import easyocr
 import cv2
 import numpy as np
+from typing import Optional
+
+# Singleton instance for EasyOCR reader
+_reader: Optional[easyocr.Reader] = None
+
+def get_reader() -> easyocr.Reader:
+    """
+    Returns a singleton instance of the EasyOCR Reader.
+    Initializes with English and Portuguese support.
+    """
+    global _reader
+    if _reader is None:
+        # gpu=False ensures it runs on CPU if no CUDA is available.
+        _reader = easyocr.Reader(['en', 'pt'], gpu=False)
+    return _reader
 
 def extract_text(image_path: str) -> str:
     """
-    Extracts text from an image using Tesseract OCR with PSM 12.
+    Extracts text from an image using a Dual-Pass EasyOCR strategy.
     
-    This configuration (Sparse text with OSD) was found to be the most effective
-    for the book spine dataset, outperforming multi-pass strategies.
+    Iteration 2 findings showed that:
+    1. EasyOCR is significantly more robust for CD spines (80% recall).
+    2. A single rotation-aware pass causes regressions in dense CD layouts.
+    3. A Dual-Pass approach (standard + rotated) provides the best coverage 
+       for both horizontal CD spines and vertical book spines.
     """
-    img = cv2.imread(image_path)
-    if img is None:
-        return ""
-
-    # Tesseract expects RGB, OpenCV gives BGR
-    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    
-    # PSM 12: Sparse text with OSD. 
-    # This handles different orientations and sparse text regions effectively.
-    config = "--psm 12"
-    
     try:
-        text = pytesseract.image_to_string(img_rgb, config=config).strip()
-        return text
+        reader = get_reader()
+        
+        # Pass 1: Standard detection (Optimized for horizontal/dense text)
+        results_standard = reader.readtext(image_path)
+        text_standard = "\n".join([res[1] for res in results_standard])
+        
+        # Pass 2: Rotation-aware detection (Optimized for vertical book/CD spines)
+        # We focus on 90 and 270 degrees which are most common for spines.
+        results_rotated = reader.readtext(image_path, rotation_info=[90, 270])
+        text_rotated = "\n".join([res[1] for res in results_rotated])
+        
+        # Combine both passes to ensure maximum coverage
+        combined_text = text_standard + "\n" + text_rotated
+        
+        return combined_text.strip()
     except Exception as e:
-        print(f"Error during OCR processing: {e}")
+        print(f"Error during EasyOCR processing: {e}")
         return ""

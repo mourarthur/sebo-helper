@@ -12,3 +12,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 - [x] **Track: Improve OCR performance**
   *Link: [./tracks/improve_ocr_20260221/](./tracks/improve_ocr_20260221/)*
 
+---
+
+- [x] **Track: OCR Performance Improvement Iteration 2**
+  *Link: [./tracks/improve_ocr_v2_20260308/](./tracks/improve_ocr_v2_20260308/)*
+
