@@ -6,11 +6,11 @@
 - **Rationale:** FastAPI provides a fast, modern web framework with excellent performance and built-in support for asynchronous operations, which is beneficial for handling image processing tasks.
 
 ## OCR & Image Processing
-- **Primary Engine:** Tesseract OCR (PSM 12)
-- **Fuzzy Matching:** RapidFuzz
-- **Image Handling:** OpenCV / Pillow (PIL)
-- **Client-Side:** Tesseract.js (v5), OpenCV.js (WASM) for offline processing.
-- **Rationale:** Tesseract with PSM 12 ("Sparse text with OSD") provides robust handling of text orientation and layout for media spines. RapidFuzz is used for robust matching of extracted titles against the wishlist, handling OCR errors and slight misspellings. OpenCV/Pillow are used for basic image loading and conversion. Client-side libraries enable offline functionality.
+- **Primary Engine (Backend/Local):** EasyOCR (Dual-Pass).
+    - *Rationale:* Delivers superior accuracy (~75% recall) for CD/book spines compared to Tesseract (~25%). Handles complex layouts and fonts effectively.
+- **Client-Side Engine (PWA):** Tesseract.js (v5) + OpenCV.js.
+    - *Rationale:* Enables offline functionality directly in the browser. While less accurate than EasyOCR, a "Dual-Pass" strategy (Standard + 90° Rotated) is implemented to mitigate Tesseract's weakness with vertical text.
+- **Image Handling:** OpenCV / Pillow (PIL).
 
 ## Frontend
 - **Template Engine:** Jinja2 (integrated with FastAPI)

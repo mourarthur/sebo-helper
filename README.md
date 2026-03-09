@@ -7,6 +7,7 @@
 ## Features
 - **Offline First:** Works without an internet connection once installed.
 - **Client-Side OCR:** Uses Tesseract.js and OpenCV.js to scan book/CD/DVD spines directly in the browser.
+    > **Note:** The offline PWA uses Tesseract.js, which is optimized for speed and offline usage but is less accurate than the Python-based EasyOCR engine used in the local development version.
 - **Wishlist Matching:** Instantly highlights titles that match your wishlist.
 - **Privacy Focused:** All processing happens on your device. No images are uploaded to any server.
 
