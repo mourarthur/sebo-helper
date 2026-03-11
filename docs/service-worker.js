@@ -1,20 +1,21 @@
-const CACHE_NAME = 'sebo-helper-v3.2';
+const CACHE_NAME = 'sebo-helper-v202603110047';
 const ASSETS_TO_CACHE = [
-  './index.html', './',
+  './',
+  './index.html',
   './static/manifest.json',
   './static/css/style.css',
-  './static/js/ocr-engine.js',
-  './static/js/image-processor.js',
   './static/js/storage.js',
   './static/js/matching.js',
+  './static/js/ocr-engine.js',
+  './static/js/image-processor.js',
   './static/js/pwa.js',
+  './static/js/vendor/opencv.js',
   './static/js/vendor/tesseract.min.js',
   './static/js/vendor/worker.min.js',
   './static/js/vendor/tesseract-core.wasm.js',
-  './static/js/vendor/opencv.js',
   './static/js/vendor/lang-data/eng.traineddata.gz',
-  './static/icons/icon-192x192.png',
-  './static/icons/icon-512x512.png'
+  './static/icons/icon-512x512.png',
+  './static/icons/icon-192x192.png'
 ];
 
 self.addEventListener('install', (event) => {
