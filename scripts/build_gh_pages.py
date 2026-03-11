@@ -1,6 +1,7 @@
 import os
 import shutil
 import re
+import datetime
 
 # Configuration
 REPO_NAME = "sebo-helper"  # Default assumption, can be changed if user has different repo name
@@ -103,17 +104,51 @@ def process_service_worker():
     with open(sw_path, "r") as f:
         content = f.read()
     
-    # Update cache paths to be relative
-    # The SW runs at root (docs/), so ./static/... is correct
-    content = content.replace("'/static/", "'./static/")
+    # 1. Generate version
+    version = datetime.datetime.now().strftime("v%Y%m%d%H%M")
+    print(f"Injecting Service Worker version: {version}")
     
-    # Update the cache list to include the relative start URL
-    # /pwa -> ./index.html (since we are generating index.html)
-    content = content.replace("'/pwa'", "'./index.html', './'")
+    # 2. Scan for assets
+    assets = []
+    # Add root paths
+    assets.append("'./'")
+    assets.append("'./index.html'")
+    
+    print(f"Scanning {STATIC_DIR} for assets...")
+    for root, _, files in os.walk(STATIC_DIR):
+        for file in files:
+            # Skip service worker itself (it's at root now, but file is in static dir during scan)
+            if file == "service-worker.js":
+                continue
+            
+            # Calculate relative path from app/static
+            # e.g. app/static/css/style.css -> css/style.css
+            rel_path = os.path.relpath(os.path.join(root, file), STATIC_DIR)
+            
+            # Normalize slashes for web
+            rel_path = rel_path.replace("\\", "/")
+            
+            # Format as ./static/...
+            web_path = f"./static/{rel_path}"
+            assets.append(f"'{web_path}'")
+            # print(f"  Added: {web_path}")
+
+    # 3. Replace CACHE_NAME
+    # Look for: const CACHE_NAME = '...';
+    content = re.sub(r"const CACHE_NAME = '.*?';", f"const CACHE_NAME = 'sebo-helper-{version}';", content)
+    
+    # 4. Replace ASSETS_TO_CACHE
+    # Look for: const ASSETS_TO_CACHE = [ ... ];
+    assets_str = ",\n  ".join(assets)
+    # Using DOTALL to match across lines
+    content = re.sub(r"const ASSETS_TO_CACHE = \[.*?\];", f"const ASSETS_TO_CACHE = [\n  {assets_str}\n];", content, flags=re.DOTALL)
+    
+    # 5. Ensure paths are relative (legacy check)
+    content = content.replace("'/static/", "'./static/")
     
     with open(sw_path, "w") as f:
         f.write(content)
-    print("Updated docs/service-worker.js")
+    print(f"Updated docs/service-worker.js with {len(assets)} assets.")
 
 def create_robots_txt():
     with open(os.path.join(OUTPUT_DIR, "robots.txt"), "w") as f:
