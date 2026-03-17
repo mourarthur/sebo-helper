@@ -150,28 +150,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 const progressContainer = document.getElementById('progress-container');
                 
                 if (indicator) {
-                    indicator.innerText = "Pass 1/2: Preprocessing...";
+                    indicator.innerText = "Pass 1/3: Preprocessing...";
                     indicator.style.backgroundColor = '#fff3cd';
                 }
-                
+
                 // --- PASS 1: Standard ---
                 const processedCanvas = preprocessCanvas(imageCanvas);
-                if (indicator) indicator.innerText = "Pass 1/2: Running OCR...";
+                if (indicator) indicator.innerText = "Pass 1/3: Running OCR...";
                 const text1 = await runOCR(processedCanvas);
-                
-                // --- PASS 2: Rotated ---
-                if (indicator) indicator.innerText = "Pass 2/2: Rotating image...";
+
+                // --- PASS 2: Rotated 90° clockwise ---
+                if (indicator) indicator.innerText = "Pass 2/3: Rotating image (CW)...";
                 const rotatedCanvas = rotateCanvas(imageCanvas);
                 const processedRotatedCanvas = preprocessCanvas(rotatedCanvas);
-                if (indicator) indicator.innerText = "Pass 2/2: Running OCR...";
+                if (indicator) indicator.innerText = "Pass 2/3: Running OCR...";
                 const text2 = await runOCR(processedRotatedCanvas);
-                
+
+                // --- PASS 3: Rotated 90° counter-clockwise ---
+                if (indicator) indicator.innerText = "Pass 3/3: Rotating image (CCW)...";
+                const rotatedCanvasCCW = rotateCanvasCCW(imageCanvas);
+                const processedRotatedCanvasCCW = preprocessCanvas(rotatedCanvasCCW);
+                if (indicator) indicator.innerText = "Pass 3/3: Running OCR...";
+                const text3 = await runOCR(processedRotatedCanvasCCW);
+
                 // Combine results
-                const combinedText = text1 + "\n" + text2;
-                
+                const combinedText = text1 + "\n" + text2 + "\n" + text3;
+
                 // --- Display Results ---
                 if (indicator) {
-                    indicator.innerText = "Dual-Pass OCR Complete!";
+                    indicator.innerText = "Triple-Pass OCR Complete!";
                     indicator.style.backgroundColor = '#d4edda';
                 }
                 if (progressContainer) progressContainer.style.display = 'none';

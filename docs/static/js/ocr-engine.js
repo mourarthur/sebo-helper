@@ -8,7 +8,7 @@ async function initTesseract() {
     console.log("Initializing Tesseract...");
     
     try {
-        ocrWorker = await Tesseract.createWorker("eng", 1, {
+        ocrWorker = await Tesseract.createWorker(["eng", "por"], 1, {
             workerPath: './static/js/vendor/worker.min.js',
             corePath: './static/js/vendor/tesseract-core.wasm.js',
             langPath: './static/js/vendor/lang-data/',

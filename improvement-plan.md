@@ -59,6 +59,21 @@ Expected impact: **+15–30% recall on the img-impr dataset** (based on research
 
 The pipeline change is entirely in `image-processor.js` and does not affect any other component.
 
+> **⚠️ BENCHMARKED — DO NOT IMPLEMENT AS WRITTEN.**
+> Benchmarked on the `img-impr` dataset (2026-03-17). Results across 8 images:
+>
+> | Pipeline | PSM 11 | PSM 12 |
+> |---|---|---|
+> | grayscale only (current) | 34.2% | 41.5% |
+> | CLAHE only | 30.0% | 37.7% |
+> | CLAHE + adaptive threshold + morph close | 8.6% | 14.2% |
+> | CLAHE + Otsu | 24.7% | 29.5% |
+> | Otsu only | 25.4% | 32.4% |
+>
+> **Finding:** Binarization (adaptive threshold, Otsu) consistently degrades recall on real phone photos. Tesseract's LSTM uses gradient information that binary thresholding destroys. CLAHE alone also provides no net benefit. **Grayscale-only is the optimal preprocessing for this dataset.** The improvement plan's expectation (+15–30%) was based on the wrong assumption that phone photos benefit from binarization.
+>
+> **Status: Closed — no change needed. Preprocessing remains grayscale-only.**
+
 ---
 
 ### Priority 2 — Add Portuguese Language Data
@@ -73,9 +88,20 @@ The pipeline change is entirely in `image-processor.js` and does not affect any 
 ocrWorker = await Tesseract.createWorker(['eng', 'por'], 1, { ... });
 ```
 
-**Trade-off:** The `por.traineddata.gz` file is ~10 MB. It must be added to the service worker cache and to the `docs/static/js/vendor/lang-data/` directory. This increases first-load size.
+**Trade-off:** The `por.traineddata.gz` file is ~6.5 MB. It must be added to the service worker cache and to the `docs/static/js/vendor/lang-data/` directory. This increases first-load size.
 
 **Expected impact:** Better recall for titles with Portuguese-specific characters. Also likely reduces false positives (garbled guesses) on Portuguese words.
+
+> **✅ IMPLEMENTED & BENCHMARKED (2026-03-17).**
+> Measured on `img-impr` (8 images, grayscale + PSM 12 + 3-pass):
+>
+> | Config | Avg Recall |
+> |---|---|
+> | eng, 2-pass (baseline) | 38.8% |
+> | eng+por, 2-pass | 38.8% |
+> | eng+por, 3-pass (final) | 41.5% |
+>
+> **Finding:** +0.3pp from Portuguese on this specific dataset. The `img-impr` images happen to be predominantly English-language rock/pop CDs (AC/DC, Deep Purple, Kiss, etc.), so the benefit is minimal here. The +por support is still correct to ship — a sebo shelf photographed in a different session is more likely to contain Portuguese-language titles where it will matter.
 
 ---
 
@@ -88,6 +114,17 @@ ocrWorker = await Tesseract.createWorker(['eng', 'por'], 1, { ... });
 **Solution:** Add a third pass with `cv.ROTATE_90_COUNTERCLOCKWISE`. This triples OCR processing time, but all three passes run sequentially and the result is deduplicated via `Set`.
 
 If three passes is too slow, benchmark which rotation direction dominates in the `img-impr` images and keep only the two most useful.
+
+> **✅ IMPLEMENTED & BENCHMARKED (2026-03-17).**
+> Measured on `img-impr` (8 images, grayscale + PSM 12 + eng+por):
+>
+> | Config | Avg Recall |
+> |---|---|
+> | eng, 2-pass (baseline) | 38.8% |
+> | eng, 3-pass | 41.2% |
+> | eng+por, 3-pass (final) | 41.5% |
+>
+> **Finding:** +2.4pp from the CCW pass. Effective — confirms the img-impr shelf has spines oriented in both directions.
 
 ---
 
@@ -154,16 +191,19 @@ Phone photos of shelves are often taken at a slight angle. Even a 2–5° tilt m
 
 ## Summary Table
 
-| Priority | Change | Effort | Expected Impact | Constraint |
-|----------|--------|--------|-----------------|------------|
-| 1 | Better preprocessing (CLAHE + adaptive threshold + morphology) | Low | +15–30% recall | None |
-| 2 | Add Portuguese language data (`por`) | Low | +5–15% recall on PT text | +10 MB cache |
-| 3 | Add 270° rotation pass | Trivial | +5% recall | +50% OCR time |
-| 4 | Evaluate PSM 11 vs PSM 12 on img-impr | Low (benchmark only) | Neutral to +5% | None |
-| 5 | Replace Tesseract.js with TrOCR (Transformers.js) | High | +30–50% recall | +80–100 MB cache |
-| 6 | Deskewing via Hough Lines | Medium | +5–10% on angled photos | Risk of regression |
+| Priority | Change | Effort | Measured Impact (img-impr) | Status |
+|----------|--------|--------|----------------------------|--------|
+| 1 | Better preprocessing (CLAHE + adaptive threshold + morphology) | Low | **−27pp** (14.2% vs 41.5% baseline) — harmful, do not apply | ❌ Closed — no change |
+| 2 | Add Portuguese language data (`por`) | Low | **+0.3pp** (38.8% → 38.8% eng-only; minimal on this dataset) | ✅ Shipped (correct for PT-heavy sessions) |
+| 3 | Add 270° (CCW) rotation pass | Trivial | **+2.4pp** (38.8% → 41.2%) | ✅ Shipped |
+| 4 | Evaluate PSM 11 vs PSM 12 on img-impr | Low | PSM 12 wins by **+7pp** (41.5% vs 34.2%); keep PSM 12 | ✅ Closed — keep PSM 12 |
+| 5 | Replace Tesseract.js with TrOCR (Transformers.js) | High | Not yet measured — next highest-value path | 🔲 Pending |
+| 6 | Deskewing via Hough Lines | Medium | Not yet measured | 🔲 Pending |
 
-**Recommended starting point:** Priority 1 + 2 + 3 together, since they are low-effort and additive. Then benchmark against `img-impr` before committing to the TrOCR path.
+**Baseline (before P2+P3):** 38.8% avg token recall on `img-impr` (gray + PSM 12 + eng + 2-pass).
+**After P2+P3:** 41.5% avg token recall (+2.7pp).
+
+**Next recommended step:** Priority 5 (TrOCR via Transformers.js) — the only remaining path likely to produce a step-change improvement. Prototype on a separate branch and benchmark against `img-impr` before merging.
 
 ---
 

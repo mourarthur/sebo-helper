@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sebo-helper-v202603110047';
+const CACHE_NAME = 'sebo-helper-v202603170102';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -14,6 +14,7 @@ const ASSETS_TO_CACHE = [
   './static/js/vendor/worker.min.js',
   './static/js/vendor/tesseract-core.wasm.js',
   './static/js/vendor/lang-data/eng.traineddata.gz',
+  './static/js/vendor/lang-data/por.traineddata.gz',
   './static/icons/icon-512x512.png',
   './static/icons/icon-192x192.png'
 ];

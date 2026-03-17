@@ -100,12 +100,14 @@ async function loadImageToMat(file) {
 
 /**
  * Preprocesses an image Mat for better OCR results.
- * @param {cv.Mat} src 
+ * Benchmarked on img-impr (real phone photos): grayscale-only outperforms all
+ * binarization pipelines (adaptive, Otsu, CLAHE+adaptive) because Tesseract's
+ * LSTM uses gradient information that binary thresholding destroys.
+ * @param {cv.Mat} src
  * @returns {cv.Mat}
  */
 function preprocessImage(src) {
     let dst = new cv.Mat();
-    // Grayscale
     cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
     return dst;
 }
@@ -153,8 +155,31 @@ function rotateCanvas(sourceCanvas) {
     return outCanvas;
 }
 
+/**
+ * Creates a 90-degree counter-clockwise rotated copy of a canvas.
+ * @param {HTMLCanvasElement} sourceCanvas
+ * @returns {HTMLCanvasElement}
+ */
+function rotateCanvasCCW(sourceCanvas) {
+    if (!cvReady) throw new Error("OpenCV not ready");
+
+    let src = cv.imread(sourceCanvas);
+    let dst = new cv.Mat();
+
+    cv.rotate(src, dst, cv.ROTATE_90_COUNTERCLOCKWISE);
+
+    const outCanvas = document.createElement('canvas');
+    cv.imshow(outCanvas, dst);
+
+    src.delete();
+    dst.delete();
+
+    return outCanvas;
+}
+
 // Expose utilities
 window.loadImageToMat = loadImageToMat;
 window.preprocessCanvas = preprocessCanvas;
 window.rotateCanvas = rotateCanvas;
+window.rotateCanvasCCW = rotateCanvasCCW;
 window.isCvReady = () => cvReady;
