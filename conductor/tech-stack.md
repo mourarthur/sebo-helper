@@ -1,4 +1,5 @@
 # Tech Stack
+The PWA must remain fully functional after first load with no network access. All model files, language data, and WASM assets must be pre-cached by the service worker.
 
 ## Backend
 - **Language:** Python 3.x
