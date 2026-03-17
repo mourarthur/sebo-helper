@@ -10,4 +10,8 @@ wishlist.json
 .DS_Store
 .env
 .gemini/
-training-images/
+# Ignore image files in training-images to allow tracking other file types (e.g. .txt)
+training-images/**/*.jpg
+training-images/**/*.jpeg
+training-images/**/*.png
+training-images/**/*.webp
